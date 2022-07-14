@@ -2,7 +2,8 @@ import React, { useContext } from 'react';
 import AppContext from '../context/AppContext';
 
 function Login() {
-  const { handleChange, login, buttonDisabled } = useContext(AppContext);
+  const { handleChange, login,
+    buttonDisabled, handleLoginClick } = useContext(AppContext);
   const { email, password } = login;
 
   return (
@@ -34,6 +35,7 @@ function Login() {
         type="button"
         data-testid="login-submit-btn"
         disabled={ buttonDisabled }
+        onClick={ handleLoginClick }
       >
         Enter
       </button>

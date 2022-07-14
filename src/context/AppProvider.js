@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import AppContext from './AppContext';
+import useLocalStorage from '../hooks/useLocalStorage';
 
 function AppProvider({ children }) {
   const [login, setLogin] = useState({
     email: '',
     password: '',
   });
+
+  const [userStorage, setUserStorage] = useLocalStorage('user');
+  const [mealsToken, setMealsToken] = useLocalStorage('mealsToken');
+  const [cocktailsToken, setCocktailsToken] = useLocalStorage('cocktailsToken');
 
   const [buttonDisabled, setButtonDisabled] = useState(true);
 
@@ -26,10 +31,22 @@ function AppProvider({ children }) {
     }
   };
 
+  const handleLoginClick = () => {
+    setUserStorage({
+      email: login.email,
+    });
+    setMealsToken(1);
+    setCocktailsToken(1);
+  };
+
   const context = {
     handleChange,
     buttonDisabled,
     login,
+    handleLoginClick,
+    userStorage,
+    mealsToken,
+    cocktailsToken,
   };
 
   return (
