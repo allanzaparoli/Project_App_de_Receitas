@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
 import AppContext from './AppContext';
+import useLocalStorage from '../hooks/useLocalStorage';
 
 function AppProvider({ children }) {
   const [login, setLogin] = useState({
@@ -8,7 +10,12 @@ function AppProvider({ children }) {
     password: '',
   });
 
+  const [userStorage, setUserStorage] = useLocalStorage('user');
+  const [mealsToken, setMealsToken] = useLocalStorage('mealsToken');
+  const [cocktailsToken, setCocktailsToken] = useLocalStorage('cocktailsToken');
   const [buttonDisabled, setButtonDisabled] = useState(true);
+
+  const history = useHistory();
 
   const handleChange = ({ target }) => {
     const { name, value } = target;
@@ -26,10 +33,23 @@ function AppProvider({ children }) {
     }
   };
 
+  const handleLoginClick = () => {
+    setUserStorage({
+      email: login.email,
+    });
+    setMealsToken(1);
+    setCocktailsToken(1);
+    history.push('/foods');
+  };
+
   const context = {
     handleChange,
     buttonDisabled,
     login,
+    handleLoginClick,
+    userStorage,
+    mealsToken,
+    cocktailsToken,
   };
 
   return (
@@ -41,6 +61,9 @@ function AppProvider({ children }) {
 
 AppProvider.propTypes = {
   children: PropTypes.node.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 export default AppProvider;
