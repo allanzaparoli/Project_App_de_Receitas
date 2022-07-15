@@ -5,7 +5,6 @@ function Foods() {
   return (
     <div>
       <Header title="Foods" profile search />
-      <h1>Foods</h1>
     </div>
   );
 }

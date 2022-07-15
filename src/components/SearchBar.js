@@ -11,7 +11,7 @@ function SearchBar() {
           data-testid="search-input"
         />
       </label>
-      <div>
+      <div className="search-bar">
         <label htmlFor="ingredient">
           Ingredient
           <input

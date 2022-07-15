@@ -1,6 +1,28 @@
 .header {
   align-items: center;
+  background-color: rgb(222, 111, 71);
+  color: white;
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
+  padding: 15px;
+}
+
+.search-bar {
+  align-items: center;
+  display: flex;
+  gap: 10px;
+  justify-content: space-evenly;
+}
+
+.search-bar input {
+  margin-left: 8px;
+}
+
+.bar {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 15px;
 }
