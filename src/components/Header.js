@@ -17,34 +17,38 @@ function Header(props) {
 
   const { title, search, profile } = props;
   return (
-    <div className="header">
-      { profile && (
-        <div>
-          <button
-            type="button"
-            onClick={ handleProfileClick }
-          >
+    <div>
+      <div className="header">
+        { profile && (
+          <div>
+            <button
+              type="button"
+              onClick={ handleProfileClick }
+            >
+              <img
+                src={ profileIcon }
+                alt="profile"
+                data-testid="profile-top-btn"
+              />
+            </button>
+          </div>
+        )}
+        <h1 data-testid="page-title">{title}</h1>
+        { search && (
+          <button type="button" onClick={ () => setSearchBar(!searchBar) }>
             <img
-              src={ profileIcon }
-              alt="profile"
-              data-testid="profile-top-btn"
+              src={ searchIcon }
+              alt="search"
+              data-testid="search-top-btn"
             />
           </button>
-        </div>
-      )}
-      <h1 data-testid="page-title">{title}</h1>
-      { search && (
-        <button type="button" onClick={ () => setSearchBar(!searchBar) }>
-          <img
-            src={ searchIcon }
-            alt="search"
-            data-testid="search-top-btn"
-          />
-        </button>
-      )}
-      { searchBar && (
-        <SearchBar />
-      )}
+        )}
+      </div>
+      <div className="bar">
+        { searchBar && (
+          <SearchBar />
+        )}
+      </div>
     </div>
   );
 }
