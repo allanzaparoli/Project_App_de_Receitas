@@ -5,7 +5,6 @@ function Profile() {
   return (
     <div>
       <Header title="Profile" profile />
-      <h1>Profile</h1>
     </div>
   );
 }
