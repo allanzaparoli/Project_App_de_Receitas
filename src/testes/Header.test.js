@@ -22,22 +22,4 @@ describe('Testa o componente Header', () => {
     expect(button).toBeInTheDocument();
     expect(pathname).toBe('/profile');
   });
-
-  it('Testa os componentes da Search Bar', () => {
-    renderWithRouter(<Foods />);
-
-    const searchButton = screen.getByTestId('search-top-btn');
-
-    userEvent.click(searchButton);
-
-    expect(screen.queryByTestId('search-input')).toBeInTheDocument();
-    expect(screen.getByTestId('ingredient-search-radio')).toBeInTheDocument();
-    expect(screen.getByTestId('name-search-radio')).toBeInTheDocument();
-    expect(screen.getByTestId('first-letter-search-radio')).toBeInTheDocument();
-    expect(screen.getByTestId('exec-search-btn')).toBeInTheDocument();
-
-    userEvent.click(searchButton);
-
-    expect(screen.queryByTestId('search-input')).not.toBeInTheDocument();
-  });
 });

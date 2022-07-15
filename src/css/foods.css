@@ -1,0 +1,9 @@
+.recipes img {
+  width: 70%;
+}
+
+.recipes {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
