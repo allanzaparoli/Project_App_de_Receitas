@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import AppContext from './AppContext';
 import useLocalStorage from '../hooks/useLocalStorage';
+import { fetchByIngredient, fetchByLetter, fetchByName } from '../fetchAPI/searchFoods';
+import { fetchByIngredientDrink, fetchByLetterDrink, fetchByNameDrink }
+from '../fetchAPI/searchDrinks';
 
 function AppProvider({ children }) {
   const [login, setLogin] = useState({
@@ -14,6 +17,10 @@ function AppProvider({ children }) {
   const [mealsToken, setMealsToken] = useLocalStorage('mealsToken');
   const [cocktailsToken, setCocktailsToken] = useLocalStorage('cocktailsToken');
   const [buttonDisabled, setButtonDisabled] = useState(true);
+  const [filterSearch, setFilterSearch] = useState('');
+  const [radioType, setRadioType] = useState(null);
+  const [recipesFilter, setRecipesFilter] = useState([]);
+  const primeiraLetra = 'first-letter';
 
   const history = useHistory();
 
@@ -42,6 +49,51 @@ function AppProvider({ children }) {
     history.push('/foods');
   };
 
+  const handleChangeSearch = ({ target: { value } }) => {
+    if (radioType === primeiraLetra && filterSearch.length > 1) {
+      global.alert('Your search must have only 1 (one) character');
+    }
+    setFilterSearch(value);
+  };
+
+  const handleTypeClick = ({ target: { value } }) => {
+    setRadioType(value);
+  };
+
+  const handleSearchClickFoods = async () => {
+    if (radioType === 'ingredient') {
+      const ingredientFilter = await fetchByIngredient(filterSearch);
+      setRecipesFilter(ingredientFilter);
+    }
+
+    if (radioType === 'name') {
+      const nameFilter = await fetchByName(filterSearch);
+      setRecipesFilter(nameFilter);
+    }
+
+    if (radioType === primeiraLetra) {
+      const letterFilter = await fetchByLetter(filterSearch);
+      setRecipesFilter(letterFilter);
+    }
+  };
+
+  const handleSearchClickDrinks = async () => {
+    if (radioType === 'ingredient') {
+      const ingredientFilter = await fetchByIngredientDrink(filterSearch);
+      setRecipesFilter(ingredientFilter);
+    }
+
+    if (radioType === 'name') {
+      const nameFilter = await fetchByNameDrink(filterSearch);
+      setRecipesFilter(nameFilter);
+    }
+
+    if (radioType === primeiraLetra) {
+      const letterFilter = await fetchByLetterDrink(filterSearch);
+      setRecipesFilter(letterFilter);
+    }
+  };
+
   const context = {
     handleChange,
     buttonDisabled,
@@ -50,6 +102,14 @@ function AppProvider({ children }) {
     userStorage,
     mealsToken,
     cocktailsToken,
+    handleChangeSearch,
+    filterSearch,
+    handleTypeClick,
+    radioType,
+    handleSearchClickFoods,
+    recipesFilter,
+    setRecipesFilter,
+    handleSearchClickDrinks,
   };
 
   return (

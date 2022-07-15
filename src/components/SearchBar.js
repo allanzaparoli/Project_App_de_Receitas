@@ -1,14 +1,24 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { useLocation } from 'react-router-dom';
+import AppContext from '../context/AppContext';
 
 function SearchBar() {
+  const { handleChangeSearch, filterSearch, handleTypeClick,
+    handleSearchClickDrinks, handleSearchClickFoods } = useContext(AppContext);
+
+  const location = useLocation();
+  const { pathname } = location;
+
   return (
     <div>
       <label htmlFor="search">
         <input
           type="text"
+          value={ filterSearch }
           name="search"
           id="search"
           data-testid="search-input"
+          onChange={ handleChangeSearch }
         />
       </label>
       <div className="search-bar">
@@ -17,9 +27,10 @@ function SearchBar() {
           <input
             type="radio"
             id="ingredient"
-            name="ingredient"
+            name="search-name"
             value="ingredient"
             data-testid="ingredient-search-radio"
+            onClick={ handleTypeClick }
           />
         </label>
         <label htmlFor="name">
@@ -27,9 +38,10 @@ function SearchBar() {
           <input
             type="radio"
             id="name"
-            name="name"
+            name="search-name"
             value="name"
             data-testid="name-search-radio"
+            onClick={ handleTypeClick }
           />
         </label>
         <label htmlFor="first-letter">
@@ -37,13 +49,21 @@ function SearchBar() {
           <input
             type="radio"
             id="first-letter"
-            name="first-letter"
+            name="search-name"
             value="first-letter"
             data-testid="first-letter-search-radio"
+            onClick={ handleTypeClick }
           />
         </label>
       </div>
-      <button type="button" data-testid="exec-search-btn">Search</button>
+      <button
+        type="button"
+        data-testid="exec-search-btn"
+        onClick={ pathname === '/drinks'
+          ? handleSearchClickDrinks : handleSearchClickFoods }
+      >
+        Search
+      </button>
     </div>
   );
 }
