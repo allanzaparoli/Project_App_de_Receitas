@@ -2,11 +2,15 @@ import React from 'react';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouter from './renderWithRouter';
-import Foods from '../pages/Foods';
+import App from '../App';
 
 describe('Testa o componente Header', () => {
+  beforeEach(() => {
+    cleanup();
+  });
+
   it('Testa se os componente são renderizados na tela', () => {
-    const { history } = renderWithRouter(<Foods />);
+    const { history } = renderWithRouter(<App />);
 
     const title = screen.getByTestId('page-title');
     const profileIcon = screen.getByAltText('profile');

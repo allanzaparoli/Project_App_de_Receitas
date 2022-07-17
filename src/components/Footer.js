@@ -36,7 +36,7 @@ function Footer() {
         >
           <img
             src={ mealIcon }
-            alt="meal"
+            alt="foods"
             data-testid="food-bottom-btn"
           />
         </button>

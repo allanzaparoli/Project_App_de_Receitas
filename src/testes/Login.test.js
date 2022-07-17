@@ -1,9 +1,13 @@
 import React from 'react';
-import { screen } from '@testing-library/react';
+import { screen, cleanup } from '@testing-library/react';
 import renderWithRouter from './renderWithRouter';
 import App from '../App';
 
 describe('Testa página de Login', () => {
+  beforeEach(() => {
+    cleanup();
+  });
+
   it('Testa se os componente são renderizados na tela', () => {
     renderWithRouter(<App />);
 
