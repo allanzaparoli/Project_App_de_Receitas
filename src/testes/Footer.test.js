@@ -1,11 +1,11 @@
 import React from 'react';
-import { screen, cleanup } from '@testing-library/react';
+import { screen, cleanup, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouter from './renderWithRouter';
 import App from '../App';
 
 describe('Testa o componente Footer', () => {
-  beforeEach(() => {
+  afterEach(() => {
     cleanup();
   });
 
@@ -20,6 +20,8 @@ describe('Testa o componente Footer', () => {
     userEvent.type(inputSenha, '1234567');
     userEvent.click(buttonLogin);
 
+    waitFor(() => expect(history.location.pathname).toBe('/foods'));
+
     const drinkIcon = screen.getByTestId('drinks-bottom-btn');
     const mealIcon = screen.getByTestId('food-bottom-btn');
 
@@ -27,9 +29,9 @@ describe('Testa o componente Footer', () => {
     expect(mealIcon).toBeInTheDocument();
 
     userEvent.click(drinkIcon);
-    expect(history.location.pathname).toBe('/drinks');
+    waitFor(() => expect(history.location.pathname).toBe('/drinks'));
 
     userEvent.click(mealIcon);
-    expect(history.location.pathname).toBe('/foods');
+    waitFor(() => expect(history.location.pathname).toBe('/foods'));
   });
 });

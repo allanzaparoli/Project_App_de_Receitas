@@ -26,5 +26,5 @@ export async function fetch5CategoriesMeals() {
   const numMax = 5;
   const response = await fetch('https://www.themealdb.com/api/json/v1/1/list.php?c=list');
   const { meals } = await response.json();
-  return meals.slice(0, numMax).map((meal) => meal.strCategory);
+  return meals.slice(0, numMax);
 }

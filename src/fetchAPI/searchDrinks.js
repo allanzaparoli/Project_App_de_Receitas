@@ -26,5 +26,5 @@ export async function fetch5CategoriesDrinks() {
   const numMax = 5;
   const response = await fetch('https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list');
   const { drinks } = await response.json();
-  return drinks.slice(0, numMax).map((drink) => drink.strCategory);
+  return drinks.slice(0, numMax);
 }

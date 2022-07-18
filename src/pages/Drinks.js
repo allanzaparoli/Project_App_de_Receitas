@@ -1,14 +1,15 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Recipes from '../components/Recipes';
 import AppContext from '../context/AppContext';
-import { fetch12Drinks } from '../fetchAPI/searchDrinks';
+import { fetch12Drinks, fetch5CategoriesDrinks } from '../fetchAPI/searchDrinks';
 
 function Drinks() {
   const { recipesFilter, allRecipes } = useContext(AppContext);
   const history = useHistory();
+  const [drinkCategories, setDrinkCategories] = useState([]);
 
   useEffect(() => {
     fetch12Drinks().then((recipes) => allRecipes(recipes));
@@ -35,10 +36,28 @@ function Drinks() {
     return array;
   };
 
+  const fetchCategories = async () => {
+    const categories = await fetch5CategoriesDrinks();
+    setDrinkCategories(categories);
+  };
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
   return (
     <div>
       <Header title="Drinks" profile search />
       <Recipes>
+        { drinkCategories.map((category, index) => (
+          <button
+            type="button"
+            key={ index }
+            data-testid={ `${category.strCategory}-category-filter` }
+          >
+            {category.strCategory}
+          </button>
+        ))}
         { !!recipesFilter && recipeLimit(recipesFilter).map((recipe, index) => (
           <div key={ index } className="recipes" data-testid={ `${index}-recipe-card` }>
             <h2 data-testid={ `${index}-card-name` }>{ recipe.strDrink }</h2>
