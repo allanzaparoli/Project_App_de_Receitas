@@ -50,7 +50,7 @@ function AppProvider({ children }) {
   };
 
   const handleChangeSearch = ({ target: { value } }) => {
-    if (radioType === primeiraLetra && filterSearch.length > 1) {
+    if (radioType === primeiraLetra && filterSearch.length > 0) {
       global.alert('Your search must have only 1 (one) character');
     }
     setFilterSearch(value);
