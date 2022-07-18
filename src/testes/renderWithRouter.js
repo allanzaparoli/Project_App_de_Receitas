@@ -5,10 +5,9 @@ import { createMemoryHistory } from 'history';
 
 const renderWithRouter = (component) => {
   const history = createMemoryHistory();
-  const functions = render(
-    <Router history={ history }>{component}</Router>,
-  );
-  return { history, ...functions };
+  return {
+    ...render(<Router history={ history }>{component}</Router>),
+    history,
+  };
 };
-
 export default renderWithRouter;
