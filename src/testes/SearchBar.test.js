@@ -1,11 +1,15 @@
 import React from 'react';
-import { screen } from '@testing-library/react';
+import { screen, cleanup } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouter from './renderWithRouter';
 import App from '../App';
 
 describe('Testa o componente SearchBar', () => {
-  it('Testa os componentes são renderizados na tela', () => {
+  beforeEach(() => {
+    cleanup();
+  });
+
+  it('Testa os componentes são renderizados na tela e as rotas', () => {
     renderWithRouter(<App />);
 
     const inputEmail = screen.getByTestId('email-input');
@@ -14,7 +18,6 @@ describe('Testa o componente SearchBar', () => {
 
     userEvent.type(inputEmail, 'bel.terenzi@gmail.com');
     userEvent.type(inputSenha, '1234567');
-
     userEvent.click(buttonLogin);
 
     const searchButton = screen.getByTestId('search-top-btn');

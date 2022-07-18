@@ -8,6 +8,7 @@ import { fetchByIngredientDrink, fetchByLetterDrink, fetchByNameDrink }
 from '../fetchAPI/searchDrinks';
 
 function AppProvider({ children }) {
+  const history = useHistory();
   const [login, setLogin] = useState({
     email: '',
     password: '',
@@ -21,8 +22,6 @@ function AppProvider({ children }) {
   const [radioType, setRadioType] = useState(null);
   const [recipesFilter, setRecipesFilter] = useState([]);
   const primeiraLetra = 'first-letter';
-
-  const history = useHistory();
 
   const handleChange = ({ target }) => {
     const { name, value } = target;
@@ -94,6 +93,10 @@ function AppProvider({ children }) {
     }
   };
 
+  const allRecipes = (recipe) => {
+    setRecipesFilter(recipe);
+  };
+
   const context = {
     handleChange,
     buttonDisabled,
@@ -110,6 +113,8 @@ function AppProvider({ children }) {
     recipesFilter,
     setRecipesFilter,
     handleSearchClickDrinks,
+    setUserStorage,
+    allRecipes,
   };
 
   return (
@@ -121,9 +126,6 @@ function AppProvider({ children }) {
 
 AppProvider.propTypes = {
   children: PropTypes.node.isRequired,
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
 };
 
 export default AppProvider;
