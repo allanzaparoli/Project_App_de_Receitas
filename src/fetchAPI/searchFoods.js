@@ -28,3 +28,9 @@ export async function fetch5CategoriesMeals() {
   const { meals } = await response.json();
   return meals.slice(0, numMax);
 }
+
+export async function fetchByCategoryMeal(category) {
+  const response = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`);
+  const { meals } = await response.json();
+  return meals;
+}
