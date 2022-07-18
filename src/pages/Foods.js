@@ -13,6 +13,7 @@ function Foods() {
   const history = useHistory();
   const [foodCategories, setFoodCategories] = useState([]);
   const [foodOption, setFoodOption] = useState('');
+  const [optionToggle, setOptionToggle] = useState(false);
 
   const fetchCategories = async () => {
     const categories = await fetch5CategoriesMeals();
@@ -39,8 +40,13 @@ function Foods() {
     waitFetch();
   }, [foodOption]);
 
-  const handleCategoryClick = async ({ target: { value } }) => {
+  const handleCategoryClick = ({ target: { value } }) => {
     setFoodOption(value);
+    setOptionToggle(!optionToggle);
+    if (optionToggle === true) {
+      setFoodOption('');
+      getAllRecipes();
+    }
   };
 
   const handleAllClick = () => {
@@ -48,9 +54,12 @@ function Foods() {
   };
 
   useEffect(() => {
+    const time = 500;
     if (recipesFilter && recipesFilter.length === 1) {
       const id = recipesFilter[0].idMeal;
-      history.push(`/foods/${id}`);
+      setTimeout(() => {
+        history.push(`/foods/${id}`);
+      }, time);
       return;
     }
     if (!recipesFilter) {
@@ -65,6 +74,11 @@ function Foods() {
       return array.slice(0, numMax);
     }
     return array;
+  };
+
+  const handleRecipeDetail = () => {
+    const id = recipesFilter[0].idMeal;
+    history.push(`/foods/${id}`);
   };
 
   return (
@@ -92,7 +106,9 @@ function Foods() {
           </button>
         ))}
         { recipeLimit(recipesFilter).map((recipe, index) => (
-          <div
+          <button
+            onClick={ handleRecipeDetail }
+            type="button"
             key={ index }
             className="recipes-card"
             data-testid={ `${index}-recipe-card` }
@@ -103,7 +119,7 @@ function Foods() {
               alt="strMealThumb"
               data-testid={ `${index}-card-img` }
             />
-          </div>
+          </button>
         ))}
       </Recipes>
       <Footer />

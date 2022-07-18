@@ -13,6 +13,7 @@ function Drinks() {
   const history = useHistory();
   const [drinkCategories, setDrinkCategories] = useState([]);
   const [drinkOption, setDrinkOption] = useState('');
+  const [optionToggle, setOptionToggle] = useState(false);
 
   const fetchCategories = async () => {
     const categories = await fetch5CategoriesDrinks();
@@ -41,6 +42,11 @@ function Drinks() {
 
   const handleCategoryClick = ({ target: { value } }) => {
     setDrinkOption(value);
+    setOptionToggle(!optionToggle);
+    if (optionToggle === true) {
+      setDrinkOption('');
+      getAllRecipes();
+    }
   };
 
   const handleAllClick = () => {
@@ -65,6 +71,11 @@ function Drinks() {
       return array.slice(0, numMax);
     }
     return array;
+  };
+
+  const handleRecipeDetail = () => {
+    const id = recipesFilter[0].idDrink;
+    history.push(`/drinks/${id}`);
   };
 
   return (
@@ -92,10 +103,12 @@ function Drinks() {
           </button>
         ))}
         { recipeLimit(recipesFilter).map((recipe, index) => (
-          <div
+          <button
+            type="button"
             key={ index }
             className="recipes-card"
             data-testid={ `${index}-recipe-card` }
+            onClick={ handleRecipeDetail }
           >
             <h2 data-testid={ `${index}-card-name` }>{ recipe.strDrink }</h2>
             <img
@@ -103,7 +116,7 @@ function Drinks() {
               alt="strDrinkThumb"
               data-testid={ `${index}-card-img` }
             />
-          </div>
+          </button>
         ))}
       </Recipes>
       <Footer />
