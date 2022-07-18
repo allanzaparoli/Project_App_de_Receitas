@@ -17,6 +17,7 @@ function AppProvider({ children }) {
   const [userStorage, setUserStorage] = useLocalStorage('user');
   const [mealsToken, setMealsToken] = useLocalStorage('mealsToken');
   const [cocktailsToken, setCocktailsToken] = useLocalStorage('cocktailsToken');
+
   const [buttonDisabled, setButtonDisabled] = useState(true);
   const [filterSearch, setFilterSearch] = useState('');
   const [radioType, setRadioType] = useState(null);
@@ -93,10 +94,6 @@ function AppProvider({ children }) {
     }
   };
 
-  const allRecipes = (recipe) => {
-    setRecipesFilter(recipe);
-  };
-
   const context = {
     handleChange,
     buttonDisabled,
@@ -114,7 +111,6 @@ function AppProvider({ children }) {
     setRecipesFilter,
     handleSearchClickDrinks,
     setUserStorage,
-    allRecipes,
   };
 
   return (

@@ -4,63 +4,99 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Recipes from '../components/Recipes';
 import AppContext from '../context/AppContext';
-import { fetch12Meals, fetch5CategoriesMeals } from '../fetchAPI/searchFoods';
+import { fetch12Meals, fetch5CategoriesMeals,
+  fetchByCategoryMeal } from '../fetchAPI/searchFoods';
 import '../css/foods.css';
 
 function Foods() {
-  const { recipesFilter, allRecipes } = useContext(AppContext);
+  const { recipesFilter, setRecipesFilter } = useContext(AppContext);
   const history = useHistory();
   const [foodCategories, setFoodCategories] = useState([]);
-
-  useEffect(() => {
-    fetch12Meals().then((recipes) => allRecipes(recipes));
-  });
-
-  useEffect(() => {
-    if (recipesFilter && recipesFilter.length === 1) {
-      const id = recipesFilter[0].idMeal;
-      history.push(`/foods/${id}`);
-    }
-
-    if (!recipesFilter) {
-      global.alert('Sorry, we haven\'t found any recipes for these filters.');
-      allRecipes([]);
-    }
-  }, [recipesFilter, history, allRecipes]);
-
-  const recipeLimit = (array) => {
-    const numMax = 12;
-
-    if (array && array.length > numMax) {
-      return array.slice(0, numMax);
-    }
-    return array;
-  };
+  const [foodOption, setFoodOption] = useState('');
 
   const fetchCategories = async () => {
     const categories = await fetch5CategoriesMeals();
     setFoodCategories(categories);
   };
 
+  const getAllRecipes = async () => {
+    const allRecipesList = await fetch12Meals();
+    setRecipesFilter(allRecipesList);
+  };
+
   useEffect(() => {
     fetchCategories();
+    getAllRecipes();
   }, []);
+
+  useEffect(() => {
+    const waitFetch = async () => {
+      if (foodOption) {
+        const categoryList = await fetchByCategoryMeal(foodOption);
+        setRecipesFilter(categoryList);
+      }
+    };
+    waitFetch();
+  }, [foodOption]);
+
+  const handleCategoryClick = async ({ target: { value } }) => {
+    setFoodOption(value);
+  };
+
+  const handleAllClick = () => {
+    getAllRecipes();
+  };
+
+  useEffect(() => {
+    if (recipesFilter && recipesFilter.length === 1) {
+      const id = recipesFilter[0].idMeal;
+      history.push(`/foods/${id}`);
+      return;
+    }
+    if (!recipesFilter) {
+      global.alert('Sorry, we haven\'t found any recipes for these filters.');
+      getAllRecipes();
+    }
+  }, [recipesFilter, history]);
+
+  const recipeLimit = (array) => {
+    const numMax = 12;
+    if (array && array.length > numMax) {
+      return array.slice(0, numMax);
+    }
+    return array;
+  };
 
   return (
     <div>
       <Header title="Foods" profile search />
-      <Recipes>
+      <Recipes className="recipes">
+        <button
+          type="button"
+          data-testid="All-category-filter"
+          onClick={ handleAllClick }
+          name="All"
+          value="All"
+        >
+          All
+        </button>
         { foodCategories.map((category, index) => (
           <button
             type="button"
             key={ index }
             data-testid={ `${category.strCategory}-category-filter` }
+            value={ category.strCategory }
+            onClick={ handleCategoryClick }
           >
             {category.strCategory}
           </button>
         ))}
-        { !!recipesFilter && recipeLimit(recipesFilter).map((recipe, index) => (
-          <div key={ index } className="recipes" data-testid={ `${index}-recipe-card` }>
+        { recipeLimit(recipesFilter).map((recipe, index) => (
+          <div
+            key={ index }
+            className="recipes-card"
+            data-testid={ `${index}-recipe-card` }
+          >
             <h2 data-testid={ `${index}-card-name` }>{ recipe.strMeal }</h2>
             <img
               src={ recipe.strMealThumb }
