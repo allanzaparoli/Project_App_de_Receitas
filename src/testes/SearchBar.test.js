@@ -66,4 +66,5 @@ describe('Testa o componente SearchBar', () => {
       expect(image[0]).toBeInTheDocument();
     }, number);
   });
+  // testes
 });
