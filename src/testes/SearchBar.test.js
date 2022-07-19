@@ -10,7 +10,7 @@ describe('Testa o componente SearchBar', () => {
   });
 
   it('Testa os componentes são renderizados na tela e as rotas', () => {
-    renderWithRouter(<App />);
+    const { history } = renderWithRouter(<App />);
 
     const inputEmail = screen.getByTestId('email-input');
     const inputSenha = screen.getByTestId('password-input');
@@ -24,8 +24,10 @@ describe('Testa o componente SearchBar', () => {
 
     userEvent.click(searchButton);
 
-    expect(screen.queryByTestId('search-input')).toBeInTheDocument();
-    expect(screen.getByTestId('ingredient-search-radio')).toBeInTheDocument();
+    const searchInput = screen.queryByTestId('search-input');
+
+    expect(searchInput).toBeInTheDocument();
+    expect(screen.queryByTestId('ingredient-search-radio')).toBeInTheDocument();
     expect(screen.getByTestId('name-search-radio')).toBeInTheDocument();
     expect(screen.getByTestId('first-letter-search-radio')).toBeInTheDocument();
     expect(screen.getByTestId('exec-search-btn')).toBeInTheDocument();
@@ -33,5 +35,11 @@ describe('Testa o componente SearchBar', () => {
     userEvent.click(searchButton);
 
     expect(screen.queryByTestId('search-input')).not.toBeInTheDocument();
+    expect(history.location.pathname).toBe('/foods');
+
+    userEvent.type(searchInput, 'garlic');
+    userEvent.click(screen.getByTestId('ingredient-search-radio'));
+
+    expect(getByText(/baingan/i)).toBeInTheDocument();
   });
 });

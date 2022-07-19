@@ -105,7 +105,7 @@ function Foods() {
             {category.strCategory}
           </button>
         ))}
-        { recipeLimit(recipesFilter).map((recipe, index) => (
+        { recipesFilter && recipeLimit(recipesFilter).map((recipe, index) => (
           <button
             onClick={ handleRecipeDetail }
             type="button"

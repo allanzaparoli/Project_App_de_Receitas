@@ -54,9 +54,12 @@ function Drinks() {
   };
 
   useEffect(() => {
+    const time = 500;
     if (recipesFilter && recipesFilter.length === 1) {
       const id = recipesFilter[0].idDrink;
-      history.push(`/drinks/${id}`);
+      setTimeout(() => {
+        history.push(`/drinks/${id}`);
+      }, time);
       return;
     }
     if (!recipesFilter) {
@@ -102,7 +105,7 @@ function Drinks() {
             {category.strCategory}
           </button>
         ))}
-        { recipeLimit(recipesFilter).map((recipe, index) => (
+        { recipesFilter && recipeLimit(recipesFilter).map((recipe, index) => (
           <button
             type="button"
             key={ index }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { screen, cleanup, waitFor } from '@testing-library/react';
+import { screen, cleanup } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouter from './renderWithRouter';
 import App from '../App';
@@ -20,7 +20,7 @@ describe('Testa o componente Footer', () => {
     userEvent.type(inputSenha, '1234567');
     userEvent.click(buttonLogin);
 
-    waitFor(() => expect(history.location.pathname).toBe('/foods'));
+    expect(history.location.pathname).toBe('/foods');
 
     const drinkIcon = screen.getByTestId('drinks-bottom-btn');
     const mealIcon = screen.getByTestId('food-bottom-btn');
@@ -29,9 +29,16 @@ describe('Testa o componente Footer', () => {
     expect(mealIcon).toBeInTheDocument();
 
     userEvent.click(drinkIcon);
-    waitFor(() => expect(history.location.pathname).toBe('/drinks'));
+    expect(history.location.pathname).toBe('/drinks');
+  });
 
+  it('Testa rota de foods', () => {
+    const { history } = renderWithRouter(<App />);
+
+    history.push('/drinks');
+
+    const mealIcon = screen.getByTestId('food-bottom-btn');
     userEvent.click(mealIcon);
-    waitFor(() => expect(history.location.pathname).toBe('/foods'));
+    expect(history.location.pathname).toBe('/foods');
   });
 });
