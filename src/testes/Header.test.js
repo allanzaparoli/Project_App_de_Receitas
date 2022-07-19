@@ -11,19 +11,20 @@ describe('Testa o componente Header', () => {
 
   it('Testa se os componente são renderizados na tela', () => {
     const { history } = renderWithRouter(<App />);
+    const inputEmail = screen.getByTestId('email-input');
+    const inputSenha = screen.getByTestId('password-input');
+    const buttonLogin = screen.getByTestId('login-submit-btn');
 
-    const title = screen.getByTestId('page-title');
-    const profileIcon = screen.getByAltText('profile');
-    const searchIcon = screen.getByAltText('search');
-    const button = screen.getByTestId('profile-top-btn');
-
-    userEvent.click(button);
-    const { pathname } = history.location;
-
-    expect(title).toBeInTheDocument();
-    expect(profileIcon).toBeInTheDocument();
-    expect(searchIcon).toBeInTheDocument();
-    expect(button).toBeInTheDocument();
+    userEvent.type(inputEmail, 'bel.terenzi@gmail.com');
+    userEvent.type(inputSenha, '1234567');
+    userEvent.click(buttonLogin);
+    const profile = screen.getByTestId('profile-top-btn');
+    const src = screen.getByTestId('search-top-btn');
+    expect(src).toBeInTheDocument();
+    userEvent.click(profile);
+    const {
+      location: { pathname },
+    } = history;
     expect(pathname).toBe('/profile');
   });
 });
