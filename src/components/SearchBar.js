@@ -59,8 +59,8 @@ function SearchBar() {
       <button
         type="button"
         data-testid="exec-search-btn"
-        onClick={ pathname === '/drinks'
-          ? handleSearchClickDrinks : handleSearchClickFoods }
+        onClick={ pathname === '/foods'
+          ? handleSearchClickFoods : handleSearchClickDrinks }
       >
         Search
       </button>
