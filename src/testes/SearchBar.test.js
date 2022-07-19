@@ -8,10 +8,9 @@ describe('Testa o componente SearchBar', () => {
   beforeEach(() => {
     cleanup();
   });
-
-  it('Testa os componentes são renderizados na tela e as rotas', () => {
+  it('Testa page drinks', () => {
+    const number = 1000;
     const { history } = renderWithRouter(<App />);
-
     const inputEmail = screen.getByTestId('email-input');
     const inputSenha = screen.getByTestId('password-input');
     const buttonLogin = screen.getByTestId('login-submit-btn');
@@ -19,27 +18,53 @@ describe('Testa o componente SearchBar', () => {
     userEvent.type(inputEmail, 'bel.terenzi@gmail.com');
     userEvent.type(inputSenha, '1234567');
     userEvent.click(buttonLogin);
-
-    const searchButton = screen.getByTestId('search-top-btn');
-
-    userEvent.click(searchButton);
-
-    const searchInput = screen.queryByTestId('search-input');
-
-    expect(searchInput).toBeInTheDocument();
-    expect(screen.queryByTestId('ingredient-search-radio')).toBeInTheDocument();
-    expect(screen.getByTestId('name-search-radio')).toBeInTheDocument();
-    expect(screen.getByTestId('first-letter-search-radio')).toBeInTheDocument();
-    expect(screen.getByTestId('exec-search-btn')).toBeInTheDocument();
-
-    userEvent.click(searchButton);
-
-    expect(screen.queryByTestId('search-input')).not.toBeInTheDocument();
-    expect(history.location.pathname).toBe('/foods');
-
-    userEvent.type(searchInput, 'garlic');
-    userEvent.click(screen.getByTestId('ingredient-search-radio'));
-
-    expect(getByText(/baingan/i)).toBeInTheDocument();
+    const drinks = screen.getByTestId('drinks-bottom-btn');
+    userEvent.click(drinks);
+    const {
+      location: { pathname },
+    } = history;
+    expect(pathname).toBe('/drinks');
+    const button = screen.getByTestId('search-top-btn');
+    userEvent.click(button);
+    userEvent.type(screen.getByTestId('search-input'), {
+      target: { value: 'banana' },
+    });
+    const ingredientes = screen.getByTestId('ingredient-search-radio');
+    userEvent.click(ingredientes);
+    const src = screen.getByTestId('exec-search-btn');
+    userEvent.click(src);
+    setTimeout(() => {
+      const image = screen.getByTestId('card-name');
+      expect(image[0]).toBeInTheDocument();
+    }, number);
   });
+  it('Testa rota de foods', () => {
+    const number = 1000;
+    const { history } = renderWithRouter(<App />);
+    const inputEmail = screen.getByTestId('email-input');
+    const inputSenha = screen.getByTestId('password-input');
+    const buttonLogin = screen.getByTestId('login-submit-btn');
+
+    userEvent.type(inputEmail, 'bel.terenzi@gmail.com');
+    userEvent.type(inputSenha, '1234567');
+    userEvent.click(buttonLogin);
+    const {
+      location: { pathname },
+    } = history;
+    expect(pathname).toBe('/foods');
+    const button = screen.getByTestId('search-top-btn');
+    userEvent.click(button);
+    userEvent.type(screen.getByTestId('search-input'), {
+      target: { value: 'banana' },
+    });
+    const ingredientes = screen.getByTestId('ingredient-search-radio');
+    userEvent.click(ingredientes);
+    const src = screen.getByTestId('exec-search-btn');
+    userEvent.click(src);
+    setTimeout(() => {
+      const image = screen.getByTestId('card-name');
+      expect(image[0]).toBeInTheDocument();
+    }, number);
+  });
+  // testes
 });
