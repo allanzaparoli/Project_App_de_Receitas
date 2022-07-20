@@ -17,3 +17,9 @@
 .recomendations h2 {
   text-align: center;
 }
+
+.start-recipe-button {
+  bottom: 0;
+  position: fixed;
+}
+
