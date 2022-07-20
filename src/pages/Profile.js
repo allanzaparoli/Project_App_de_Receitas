@@ -4,7 +4,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 function Profile() {
-  const emailSaved = JSON.parse(localStorage.getItem('user')).email;
+  const emailSaved = JSON.parse(localStorage.getItem('user'))?.email;
 
   const history = useHistory();
 
