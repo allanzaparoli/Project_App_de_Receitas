@@ -1,12 +1,10 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import AppContext from '../context/AppContext';
 
 function Profile() {
-  const { login } = useContext(AppContext);
-  const { email } = login;
+  const emailSaved = JSON.parse(localStorage.getItem('user')).email;
 
   const history = useHistory();
 
@@ -26,7 +24,7 @@ function Profile() {
   return (
     <div>
       <Header title="Profile" profile />
-      <p data-testid="profile-email">{ email }</p>
+      <p data-testid="profile-email">{ emailSaved }</p>
       <button
         type="button"
         data-testid="profile-done-btn"

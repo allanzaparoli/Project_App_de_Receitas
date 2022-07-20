@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
+import clipboardCopy from 'clipboard-copy';
+import useLocalStorage from '../hooks/useLocalStorage';
 import { fetchRecipeDetail } from '../fetchAPI/searchFoods';
 import { fetch12Drinks } from '../fetchAPI/searchDrinks';
 import '../css/recipeDetails.css';
@@ -12,6 +14,9 @@ function FoodRecipe() {
   const [foodDetail, setFoodDetail] = useState([]);
   const [drinkRecomendation, setDrinkRecomendation] = useState([]);
   const { id } = useParams();
+  const history = useHistory();
+  const [, setFavoritesStorage] = useLocalStorage('favoriteRecipes');
+  const [linkCopied, setLinkCopied] = useState(false);
 
   useEffect(() => {
     const getFoodDetail = async () => {
@@ -47,8 +52,41 @@ function FoodRecipe() {
     )).filter((item) => item[0] !== '');
   };
 
+  const handleStartRecipeButton = () => {
+    if (id) {
+      history.push(`/foods/${id}/in-progress`);
+    }
+  };
+
+  const handleShareClick = () => {
+    setLinkCopied(true);
+    clipboardCopy(window.location.href);
+  };
+
+  const handleFavorites = () => {
+    const currentFavorites = JSON.parse(localStorage.getItem('favoriteRecipes')) ?? [];
+    setFavoritesStorage([
+      ...currentFavorites,
+      {
+        id: foodDetail[0].idMeal,
+        type: 'food',
+        nationality: foodDetail[0].strArea,
+        category: foodDetail[0].strCategory,
+        alcoholicOrNot: foodDetail[0].strAlcoholic ?? '',
+        name: foodDetail[0].strMeal,
+        image: foodDetail[0].strMealThumb,
+      }]);
+  };
+
   return (
     <div>
+      { linkCopied && <p>Link copied!</p> }
+      <button type="button" data-testid="share-btn" onClick={ handleShareClick }>
+        <img src={ shareIcon } alt="shareIcon" />
+      </button>
+      <button type="button" data-testid="favorite-btn" onClick={ handleFavorites }>
+        <img src={ whiteHeartIcon } alt="whiteHeartIcon" />
+      </button>
       { foodDetail && foodDetail.map((recipe, index) => (
         <div key={ index } className="recipe-details">
           <h1 data-testid="recipe-title">{ recipe.strMeal }</h1>
@@ -78,6 +116,14 @@ function FoodRecipe() {
             src={ recipe.strYoutube.replace('watch?v=', 'embed/') }
             data-testid="video"
           />
+          <button
+            type="button"
+            data-testid="start-recipe-btn"
+            className="start-recipe-button"
+            onClick={ handleStartRecipeButton }
+          >
+            Start Recipe
+          </button>
         </div>
       ))}
       <div className="recomendations">
@@ -95,19 +141,6 @@ function FoodRecipe() {
           </div>
         ))}
       </div>
-      <button
-        type="button"
-        data-testid="start-recipe-btn"
-        className="start-recipe-button"
-      >
-        Start Recipe
-      </button>
-      <button type="button" data-testid="share-btn">
-        <img src={ shareIcon } alt="shareIcon" />
-      </button>
-      <button type="button" data-testid="favorite-btn">
-        <img src={ whiteHeartIcon } alt="whiteHeartIcon" />
-      </button>
     </div>
   );
 }

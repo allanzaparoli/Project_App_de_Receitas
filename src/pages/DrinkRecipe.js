@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
+import clipboardCopy from 'clipboard-copy';
+import useLocalStorage from '../hooks/useLocalStorage';
 import { fetchRecipeDetailDrink } from '../fetchAPI/searchDrinks';
 import { fetch12Meals } from '../fetchAPI/searchFoods';
 import shareIcon from '../images/shareIcon.svg';
@@ -12,6 +14,8 @@ function DrinkRecipe() {
   const [foodRecomendation, setFoodRecomendation] = useState([]);
   const { id } = useParams();
   const history = useHistory();
+  const [, setFavoritesStorage] = useLocalStorage('favoriteRecipes');
+  const [linkCopied, setLinkCopied] = useState(false);
 
   useEffect(() => {
     const getDrinkDetail = async () => {
@@ -47,13 +51,47 @@ function DrinkRecipe() {
     )).filter((item) => item[0] !== null);
   };
 
-  const handleStartRecipeButton = (recipe) => {
-    const { idMeal } = recipe;
-    history.push(`/foods/${idMeal}-in-progress`);
+  const handleStartRecipeButton = () => {
+    if (id) {
+      history.push(`/drinks/${id}/in-progress`);
+    }
+  };
+
+  const handleShareClick = () => {
+    setLinkCopied(true);
+    clipboardCopy(window.location.href);
+  };
+
+  const handleFavorites = () => {
+    const currentFavorites = JSON.parse(localStorage.getItem('favoriteRecipes')) ?? [];
+    setFavoritesStorage([
+      ...currentFavorites,
+      {
+        id: drinkDetail[0].idDrink,
+        type: 'drink',
+        nationality: drinkDetail[0].strArea ?? '',
+        category: drinkDetail[0].strCategory ?? '',
+        alcoholicOrNot: drinkDetail[0].strAlcoholic ?? '',
+        name: drinkDetail[0].strDrink,
+        image: drinkDetail[0].strDrinkThumb,
+      }]);
   };
 
   return (
     <div>
+      <div className="share-heart-buttons">
+        { linkCopied && <p>Link copied!</p> }
+        <button type="button" data-testid="share-btn" onClick={ handleShareClick }>
+          <img src={ shareIcon } alt="shareIcon" />
+        </button>
+        <button
+          type="button"
+          data-testid="favorite-btn"
+          onClick={ handleFavorites }
+        >
+          <img src={ whiteHeartIcon } alt="whiteHeartIcon" />
+        </button>
+      </div>
       { drinkDetail && drinkDetail.map((recipe, index) => (
         <div key={ index } className="recipe-details">
           <h1 data-testid="recipe-title">{ recipe.strDrink }</h1>
@@ -76,6 +114,14 @@ function DrinkRecipe() {
             ))}
           </ul>
           <p data-testid="instructions">{ recipe.strInstructions }</p>
+          <button
+            type="button"
+            data-testid="start-recipe-btn"
+            className="start-recipe-button"
+            onClick={ handleStartRecipeButton }
+          >
+            Start Recipe
+          </button>
         </div>
       ))}
       <div className="recomendations">
@@ -92,22 +138,6 @@ function DrinkRecipe() {
             />
           </div>
         ))}
-      </div>
-      <button
-        type="button"
-        data-testid="start-recipe-btn"
-        className="start-recipe-button"
-        onClick={ () => handleStartRecipeButton(recipe) }
-      >
-        Start Recipe
-      </button>
-      <div className="share-heart-buttons">
-        <button type="button" data-testid="share-btn">
-          <img src={ shareIcon } alt="shareIcon" />
-        </button>
-        <button type="button" data-testid="favorite-btn">
-          <img src={ whiteHeartIcon } alt="whiteHeartIcon" />
-        </button>
       </div>
     </div>
   );
