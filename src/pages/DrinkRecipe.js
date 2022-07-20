@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { fetchRecipeDetailDrink } from '../fetchAPI/searchDrinks';
 import { fetch12Meals } from '../fetchAPI/searchFoods';
 import shareIcon from '../images/shareIcon.svg';
@@ -9,16 +9,18 @@ import '../css/drinkRecipe.css';
 
 function DrinkRecipe() {
   const [drinkDetail, setDrinkDetail] = useState([]);
-  const [foodRecomendation, setFoodRecomendation] = useState([])
+  const [foodRecomendation, setFoodRecomendation] = useState([]);
   const { id } = useParams();
+  const history = useHistory();
 
   useEffect(() => {
     const getDrinkDetail = async () => {
+      const numMax = 6;
       if (id) {
         const recomendations = await fetch12Meals();
         const details = await fetchRecipeDetailDrink(id);
         setDrinkDetail(details);
-        setFoodRecomendation(recomendations.slice(0, 6))
+        setFoodRecomendation(recomendations.slice(0, numMax));
       }
     };
     getDrinkDetail();
@@ -45,6 +47,11 @@ function DrinkRecipe() {
     )).filter((item) => item[0] !== null);
   };
 
+  const handleStartRecipeButton = (recipe) => {
+    const { idMeal } = recipe;
+    history.push(`/foods/${idMeal}-in-progress`);
+  };
+
   return (
     <div>
       { drinkDetail && drinkDetail.map((recipe, index) => (
@@ -57,7 +64,7 @@ function DrinkRecipe() {
           />
           <h3 data-testid="recipe-category">{ recipe.strAlcoholic }</h3>
           <ul>
-            { bothFilters()?.map((key, index2) => (
+            { bothFilters().map((key, index2) => (
               <li
                 key={ Math.random() }
                 data-testid={ `${index2}-ingredient-name-and-measure` }
@@ -72,22 +79,36 @@ function DrinkRecipe() {
         </div>
       ))}
       <div className="recomendations">
-      { foodRecomendation && foodRecomendation.map((drink, index) => (
-        <div key={ index } className="recomendations2" data-testid={ `${index}-recomendation-card` }>
-           <h2 data-testid={ `${index}-recomendation-title` }>{ drink.strMeal }</h2>
+        { foodRecomendation && foodRecomendation.map((drink, index) => (
+          <div
+            key={ index }
+            className="recomendations2"
+            data-testid={ `${index}-recomendation-card` }
+          >
+            <h2 data-testid={ `${index}-recomendation-title` }>{ drink.strMeal }</h2>
             <img
               src={ drink.strMealThumb }
               alt="strMealThumb"
             />
-        </div>
-      ))}
+          </div>
+        ))}
       </div>
-      <button type="button" data-testid="share-btn">
-        <img src={ shareIcon } alt="shareIcon" />
+      <button
+        type="button"
+        data-testid="start-recipe-btn"
+        className="start-recipe-button"
+        onClick={ () => handleStartRecipeButton(recipe) }
+      >
+        Start Recipe
       </button>
-      <button type="button" data-testid="favorite-btn">
-        <img src={ whiteHeartIcon } alt="whiteHeartIcon" />
-      </button>
+      <div className="share-heart-buttons">
+        <button type="button" data-testid="share-btn">
+          <img src={ shareIcon } alt="shareIcon" />
+        </button>
+        <button type="button" data-testid="favorite-btn">
+          <img src={ whiteHeartIcon } alt="whiteHeartIcon" />
+        </button>
+      </div>
     </div>
   );
 }

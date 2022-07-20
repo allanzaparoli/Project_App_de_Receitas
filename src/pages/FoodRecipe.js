@@ -10,16 +10,17 @@ import '../css/foodRecipe.css';
 
 function FoodRecipe() {
   const [foodDetail, setFoodDetail] = useState([]);
-  const [drinkRecomendation, setDrinkRecomendation] = useState([])
+  const [drinkRecomendation, setDrinkRecomendation] = useState([]);
   const { id } = useParams();
 
   useEffect(() => {
     const getFoodDetail = async () => {
+      const numMax = 6;
       if (id) {
         const details = await fetchRecipeDetail(id);
         const recomendations = await fetch12Drinks();
         setFoodDetail(details);
-        setDrinkRecomendation(recomendations.slice(0, 6));
+        setDrinkRecomendation(recomendations.slice(0, numMax));
       }
     };
     getFoodDetail();
@@ -58,7 +59,7 @@ function FoodRecipe() {
           />
           <h3 data-testid="recipe-category">{ recipe.strCategory }</h3>
           <ul>
-            { bothFilters()?.map((key, index2) => (
+            { bothFilters().map((key, index2) => (
               <li
                 key={ Math.random() }
                 data-testid={ `${index2}-ingredient-name-and-measure` }
@@ -80,16 +81,27 @@ function FoodRecipe() {
         </div>
       ))}
       <div className="recomendations">
-      { drinkRecomendation && drinkRecomendation.map((drink, index) => (
-        <div key={ index } className="recomendations2" data-testid={ `${index}-recomendation-card` }>
-           <h2 data-testid={ `${index}-recomendation-title` }>{ drink.strDrink }</h2>
+        { drinkRecomendation && drinkRecomendation.map((drink, index) => (
+          <div
+            key={ index }
+            className="recomendations2"
+            data-testid={ `${index}-recomendation-card` }
+          >
+            <h2 data-testid={ `${index}-recomendation-title` }>{ drink.strDrink }</h2>
             <img
               src={ drink.strDrinkThumb }
               alt="strDrinkThumb"
             />
-        </div>
-      ))}
+          </div>
+        ))}
       </div>
+      <button
+        type="button"
+        data-testid="start-recipe-btn"
+        className="start-recipe-button"
+      >
+        Start Recipe
+      </button>
       <button type="button" data-testid="share-btn">
         <img src={ shareIcon } alt="shareIcon" />
       </button>
