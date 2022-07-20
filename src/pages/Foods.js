@@ -7,6 +7,7 @@ import AppContext from '../context/AppContext';
 import { fetch12Meals, fetch5CategoriesMeals,
   fetchByCategoryMeal } from '../fetchAPI/searchFoods';
 import '../css/foods.css';
+import RecipeDetails from '../components/RecipeDetails';
 
 function Foods() {
   const { recipesFilter, setRecipesFilter } = useContext(AppContext);
@@ -76,9 +77,9 @@ function Foods() {
     return array;
   };
 
-  const handleRecipeDetail = () => {
-    const id = recipesFilter[0].idMeal;
-    history.push(`/foods/${id}`);
+  const handleRecipeDetail = (recipe) => {
+    const { idMeal } = recipe;
+    history.push(`/foods/${idMeal}`);
   };
 
   return (
@@ -107,7 +108,7 @@ function Foods() {
         ))}
         { recipesFilter && recipeLimit(recipesFilter).map((recipe, index) => (
           <button
-            onClick={ handleRecipeDetail }
+            onClick={ () => handleRecipeDetail(recipe) }
             type="button"
             key={ index }
             className="recipes-card"
@@ -122,6 +123,7 @@ function Foods() {
           </button>
         ))}
       </Recipes>
+      <RecipeDetails />
       <Footer />
     </div>
   );

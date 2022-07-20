@@ -7,6 +7,7 @@ import AppContext from '../context/AppContext';
 import '../css/drinks.css';
 import { fetch12Drinks, fetch5CategoriesDrinks,
   fetchByCategoryDrink } from '../fetchAPI/searchDrinks';
+import RecipeDetails from '../components/RecipeDetails';
 
 function Drinks() {
   const { recipesFilter, setRecipesFilter } = useContext(AppContext);
@@ -76,9 +77,9 @@ function Drinks() {
     return array;
   };
 
-  const handleRecipeDetail = () => {
-    const id = recipesFilter[0].idDrink;
-    history.push(`/drinks/${id}`);
+  const handleRecipeDetail = (recipe) => {
+    const { idDrink } = recipe;
+    history.push(`/drinks/${idDrink}`);
   };
 
   return (
@@ -111,7 +112,7 @@ function Drinks() {
             key={ index }
             className="recipes-card"
             data-testid={ `${index}-recipe-card` }
-            onClick={ handleRecipeDetail }
+            onClick={ () => handleRecipeDetail(recipe) }
           >
             <h2 data-testid={ `${index}-card-name` }>{ recipe.strDrink }</h2>
             <img
@@ -122,6 +123,7 @@ function Drinks() {
           </button>
         ))}
       </Recipes>
+      <RecipeDetails />
       <Footer />
     </div>
   );

@@ -34,3 +34,9 @@ export async function fetchByCategoryDrink(category) {
   const { drinks } = await response.json();
   return drinks;
 }
+
+export async function fetchRecipeDetailDrink(id) {
+  const response = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`);
+  const { drinks } = await response.json();
+  return drinks;
+}

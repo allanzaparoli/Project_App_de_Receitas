@@ -1,0 +1,14 @@
+.recipe-details {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.recipe-details img {
+  width: 70%;
+}
+
+.recipe-details p {
+  text-align: justify;
+  width: 90%;
+}
