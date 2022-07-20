@@ -41,4 +41,20 @@ describe('Testa o componente Footer', () => {
     userEvent.click(mealIcon);
     expect(history.location.pathname).toBe('/foods');
   });
+  it('Teste se a aplicação é redirecionada para a página de Foods', () => {
+    const { history } = renderWithRouter(<App />);
+    const email = screen.getByTestId('email-input');
+    const senha = screen.getByTestId('password-input');
+    userEvent.type(email, 'jmillene12@gmail.com');
+    userEvent.type(senha, '1234567');
+    const button = screen.getByRole('button', {
+      name: /enter/i,
+    });
+    userEvent.click(button);
+    const {
+      location: { pathname },
+    } = history;
+    expect(pathname).toBe('/foods');
+    expect(button).toBeInTheDocument();
+  });
 });
