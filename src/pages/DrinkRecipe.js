@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { fetchRecipeDetailDrink } from '../fetchAPI/searchDrinks';
 import { fetch12Meals } from '../fetchAPI/searchFoods';
 import shareIcon from '../images/shareIcon.svg';
@@ -11,6 +11,7 @@ function DrinkRecipe() {
   const [drinkDetail, setDrinkDetail] = useState([]);
   const [foodRecomendation, setFoodRecomendation] = useState([]);
   const { id } = useParams();
+  const history = useHistory();
 
   useEffect(() => {
     const getDrinkDetail = async () => {
@@ -44,6 +45,11 @@ function DrinkRecipe() {
     return filterIngredientsKeys()?.map((ingredient, index) => (
       [drinkDetail[0][ingredient], drinkDetail[0][measures[index]]]
     )).filter((item) => item[0] !== null);
+  };
+
+  const handleStartRecipeButton = (recipe) => {
+    const { idMeal } = recipe;
+    history.push(`/foods/${idMeal}-in-progress`);
   };
 
   return (
@@ -91,6 +97,7 @@ function DrinkRecipe() {
         type="button"
         data-testid="start-recipe-btn"
         className="start-recipe-button"
+        onClick={ () => handleStartRecipeButton(recipe) }
       >
         Start Recipe
       </button>
