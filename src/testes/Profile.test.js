@@ -10,7 +10,7 @@ describe('Testa página de Profile', () => {
   });
 
   it('Testa se os componente e a rota de Done Recipes', () => {
-    renderWithRouter(<App />);
+    const { history } = renderWithRouter(<App />);
 
     const inputEmail = screen.getByTestId('email-input');
     const inputSenha = screen.getByTestId('password-input');
@@ -25,6 +25,10 @@ describe('Testa página de Profile', () => {
     expect(profileButton).toBeInTheDocument();
 
     userEvent.click(profileButton);
+    const {
+      location: { pathname },
+    } = history;
+    expect(pathname).toBe('/profile');
 
     expect(screen.getByText('Profile')).toBeInTheDocument();
     expect(screen.getByTestId('profile-email')).toBeInTheDocument();

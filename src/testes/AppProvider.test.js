@@ -18,23 +18,23 @@ describe('Testa o componente AppProvider', () => {
     userEvent.type(inputEmail, 'bel.terenzi@gmail.com');
     userEvent.type(inputSenha, '1234567');
     userEvent.click(buttonLogin);
-    const button = screen.getByTestId('drinks-bottom-btn');
-    userEvent.click(button);
     const pesquisa = screen.getByTestId('search-top-btn');
     userEvent.click(pesquisa);
     const radio = screen.getByTestId('first-letter-search-radio');
     userEvent.click(radio);
     userEvent.type(screen.getByTestId('search-input'), {
-      target: { value: 'aq' },
+      target: { value: 'a' },
     });
     setTimeout(() => {
-      const mensage = screen.getByText(/Your search must have only 1 (one) character/i);
+      const mensage = screen.getByText(
+        /Your search must have only 1 (one) character/i,
+      );
       expect(mensage).toBeInTheDocument();
     }, number);
   });
   it('Testa se os ingredientes são renderizados na tela', () => {
     const number = 1000;
-    const { history } = renderWithRouter(<App />);
+    renderWithRouter(<App />);
     const inputEmail = screen.getByTestId('email-input');
     const inputSenha = screen.getByTestId('password-input');
     const buttonLogin = screen.getByTestId('login-submit-btn');
@@ -42,12 +42,6 @@ describe('Testa o componente AppProvider', () => {
     userEvent.type(inputEmail, 'bel.terenzi@gmail.com');
     userEvent.type(inputSenha, '1234567');
     userEvent.click(buttonLogin);
-    const drinks = screen.getByTestId('drinks-bottom-btn');
-    userEvent.click(drinks);
-    const {
-      location: { pathname },
-    } = history;
-    expect(pathname).toBe('/drinks');
     const button = screen.getByTestId('search-top-btn');
     userEvent.click(button);
     userEvent.type(screen.getByTestId('search-input'), {
