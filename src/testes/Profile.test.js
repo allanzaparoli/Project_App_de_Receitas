@@ -41,4 +41,42 @@ describe('Testa página de Profile', () => {
 
     expect(screen.getByText('Done Recipes')).toBeInTheDocument();
   });
+  it('Testa a rota favorites', () => {
+    const { history } = renderWithRouter(<App />);
+    const inputEmail = screen.getByTestId('email-input');
+    const inputSenha = screen.getByTestId('password-input');
+    const buttonLogin = screen.getByTestId('login-submit-btn');
+
+    userEvent.type(inputEmail, 'bel.terenzi@gmail.com');
+    userEvent.type(inputSenha, '1234567');
+    userEvent.click(buttonLogin);
+    const perfil = screen.getByTestId('profile-top-btn');
+    userEvent.click(perfil);
+
+    const favorite = screen.getByTestId('profile-favorite-btn');
+    userEvent.click(favorite);
+    const {
+      location: { pathname },
+    } = history;
+    expect(pathname).toBe('/favorite-recipes');
+  });
+  it('Testa a rota login', () => {
+    const { history } = renderWithRouter(<App />);
+    const inputEmail = screen.getByTestId('email-input');
+    const inputSenha = screen.getByTestId('password-input');
+    const buttonLogin = screen.getByTestId('login-submit-btn');
+
+    userEvent.type(inputEmail, 'bel.terenzi@gmail.com');
+    userEvent.type(inputSenha, '1234567');
+    userEvent.click(buttonLogin);
+    const perfil = screen.getByTestId('profile-top-btn');
+    userEvent.click(perfil);
+
+    const favorite = screen.getByTestId('profile-logout-btn');
+    userEvent.click(favorite);
+    const {
+      location: { pathname },
+    } = history;
+    expect(pathname).toBe('/');
+  });
 });
