@@ -5,16 +5,15 @@ import App from '../App';
 import renderWithRouter from './renderWithRouter';
 import meals from '../../cypress/mocks/meals';
 
-describe('Testando a API searchFoods', () => {
+describe('Testando os Foods', () => {
   beforeEach(() => {
     jest.spyOn(global, 'fetch');
     global.fetch.mockResolvedValue({
       json: jest.fn().mockResolvedValue(meals),
     });
-
     renderWithRouter(<App />);
   });
-  it('Testa se a API está sendo chamada', async () => {
+  it('Testa a função de Foods', async () => {
     const inputEmail = screen.getByTestId('email-input');
     const inputSenha = screen.getByTestId('password-input');
     const buttonLogin = screen.getByTestId('login-submit-btn');
@@ -24,9 +23,6 @@ describe('Testando a API searchFoods', () => {
     userEvent.click(buttonLogin);
 
     expect(global.fetch).toHaveBeenCalled();
-  });
-
-  it('Testar se as receitas estão aparecendo na tela', async () => {
     const receita = await screen.findByText('Corba');
     expect(receita).toBeInTheDocument();
   });
