@@ -40,8 +40,7 @@ function DoneRecipes() {
     console.log(url);
     navigator.clipboard.writeText(url);
     setShare(true);
-
-};
+  };
 
   setTimeout(() => {
     if (share) {
