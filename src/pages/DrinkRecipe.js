@@ -6,7 +6,7 @@ import { fetchRecipeDetailDrink } from '../fetchAPI/searchDrinks';
 import { fetch12Meals } from '../fetchAPI/searchFoods';
 import shareIcon from '../images/shareIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
-// import blackHeartIcon from '../images/blackHeartIcon.svg';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
 import '../css/drinkRecipe.css';
 
 function DrinkRecipe() {
@@ -16,6 +16,7 @@ function DrinkRecipe() {
   const history = useHistory();
   const [, setFavoritesStorage] = useLocalStorage('favoriteRecipes');
   const [linkCopied, setLinkCopied] = useState(false);
+  const [heartClicked, setHeartClicked] = useState(false);
 
   useEffect(() => {
     const getDrinkDetail = async () => {
@@ -75,6 +76,7 @@ function DrinkRecipe() {
         name: drinkDetail[0].strDrink,
         image: drinkDetail[0].strDrinkThumb,
       }]);
+    setHeartClicked(!heartClicked);
   };
 
   return (
@@ -86,10 +88,16 @@ function DrinkRecipe() {
         </button>
         <button
           type="button"
-          data-testid="favorite-btn"
           onClick={ handleFavorites }
         >
-          <img src={ whiteHeartIcon } alt="whiteHeartIcon" />
+          { heartClicked ? (
+            <img src={ blackHeartIcon } alt="blackHeartIcon" data-testid="favorite-btn" />
+          ) : (
+            <img
+              src={ whiteHeartIcon }
+              alt="whiteHeartIco"
+              data-testid="favorite-btn"
+            />) }
         </button>
       </div>
       { drinkDetail && drinkDetail.map((recipe, index) => (
