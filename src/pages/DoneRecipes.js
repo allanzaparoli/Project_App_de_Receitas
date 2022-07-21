@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Header from '../components/Header';
 import shareIcon from '../images/shareIcon.svg';
 import '../css/doneRecipes.css';
 // import DoneRecipesFood from '../components/DoneRecipesFood';
 
 function DoneRecipes() {
+  const [share, setShare] = useState(false);
+  const number = 1000;
   const teste = [
     {
       id: '52771',
@@ -36,7 +38,14 @@ function DoneRecipes() {
     const url = `http://localhost:3000/foods/${id}`;
     console.log(url);
     navigator.clipboard.writeText(url);
+    setShare(true);
   };
+
+  setTimeout(() => {
+    if (share) {
+      setShare(false);
+    }
+  }, number);
 
   const callLocalStorage = () => {
     const getLocalStorage = JSON.parse(localStorage.getItem('doneRecipes'));
@@ -173,6 +182,7 @@ function DoneRecipes() {
         Drinks
       </button>
       { callLocalStorage() }
+      { share && <span>Link copied!</span> }
     </div>
   );
 }
