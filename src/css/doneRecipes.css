@@ -1,0 +1,51 @@
+
+.container-dones {
+    align-items: center;
+    border: 1px solid #FFE7D6;
+    border-radius: 10px;
+    box-shadow: 3px 5px 5px rgba(142,142, 142, 0.5);
+    display: flex;
+    justify-content: space-between;
+    height: 200px;
+    margin: 0 0 15px 10px;
+    width: 95%;
+}
+
+.container-dones-img {
+    /* border: 1px salmon solid; */
+    height: 100%;
+    width: 50%;
+}
+
+.img-recipes-done {
+    border-radius: 10px 0 0 10px;
+    height: 100%;
+    width: 100%;
+}
+
+.container-dones-info {
+    align-items: center;
+    /* border: 1px saddlebrown solid; */
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: center;
+    margin: 0 1px 0 10px;
+    width: 50%;
+}
+
+.container-dones-info-share {
+    align-items: center;
+    /* border: 1px solid blue; */
+    display: flex;
+    height: 30px;
+    justify-content: space-between;
+    margin-right: 7px;
+    width: 100%;
+}
+
+.shareIcon {
+    height: 21px;
+}
+
+.container-dones-info-name {}
