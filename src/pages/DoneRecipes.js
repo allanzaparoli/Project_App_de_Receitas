@@ -7,6 +7,7 @@ import '../css/doneRecipes.css';
 function DoneRecipes() {
   const [share, setShare] = useState(false);
   const number = 1000;
+
   const teste = [
     {
       id: '52771',
