@@ -17,3 +17,10 @@
 .recomendations h2 {
   text-align: center;
 }
+
+.start-recipe-button {
+  bottom: 0;
+  display: flex;
+  position: fixed;
+}
+
