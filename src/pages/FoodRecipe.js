@@ -32,6 +32,14 @@ function FoodRecipe() {
     getFoodDetail();
   }, [id]);
 
+  useEffect(() => {
+    const getFavoritesStorage = JSON.parse(localStorage.getItem('favoriteRecipes')) ?? [];
+    const verifyStorage = getFavoritesStorage.find((favorite) => favorite.id === id);
+    if (verifyStorage) {
+      setHeartClicked(true);
+    }
+  }, []);
+
   const filterIngredientsKeys = () => {
     if (foodDetail[0]) {
       return Object.keys(foodDetail[0]).filter((detail) => detail
@@ -64,20 +72,25 @@ function FoodRecipe() {
     clipboardCopy(window.location.href);
   };
 
-  const handleFavorites = () => {
+  const handleFavorites = (id2) => {
+    setHeartClicked((estadoAnt) => !estadoAnt);
     const currentFavorites = JSON.parse(localStorage.getItem('favoriteRecipes')) ?? [];
-    setFavoritesStorage([
-      ...currentFavorites,
-      {
-        id: foodDetail[0].idMeal,
-        type: 'food',
-        nationality: foodDetail[0].strArea,
-        category: foodDetail[0].strCategory,
-        alcoholicOrNot: foodDetail[0].strAlcoholic ?? '',
-        name: foodDetail[0].strMeal,
-        image: foodDetail[0].strMealThumb,
-      }]);
-    setHeartClicked(!heartClicked);
+    if (!heartClicked) {
+      setFavoritesStorage([
+        ...currentFavorites,
+        {
+          id: foodDetail[0].idMeal,
+          type: 'food',
+          nationality: foodDetail[0].strArea,
+          category: foodDetail[0].strCategory,
+          alcoholicOrNot: foodDetail[0].strAlcoholic ?? '',
+          name: foodDetail[0].strMeal,
+          image: foodDetail[0].strMealThumb,
+        }]);
+    } else {
+      const filterId = currentFavorites.filter((favorite) => favorite.id !== id2);
+      setFavoritesStorage(filterId);
+    }
   };
 
   return (
@@ -86,7 +99,7 @@ function FoodRecipe() {
       <button type="button" data-testid="share-btn" onClick={ handleShareClick }>
         <img src={ shareIcon } alt="shareIcon" />
       </button>
-      <button type="button" onClick={ handleFavorites }>
+      <button type="button" onClick={ () => handleFavorites(id) }>
         { heartClicked ? (
           <img src={ blackHeartIcon } alt="blackHeartIcon" data-testid="favorite-btn" />
         ) : (
