@@ -47,12 +47,14 @@ function FoodsInProgress() {
             </div>
             <p data-testid="instructions">{ recipe.strInstructions }</p>
             { getIngredients(recipe).map((ingredient, i) => (
-              <p
-                key={ i + 1 }
-                data-testid={ `${i}-ingredient-step` }
-              >
-                { ingredient[1] }
-              </p>
+              (ingredient[1] !== '')
+              && (
+                <p
+                  key={ i + 1 }
+                  data-testid={ `${i}-ingredient-step` }
+                >
+                  { ingredient[1] }
+                </p>)
             )) }
             <button type="button" data-testid="finish-recipe-btn">Finish Recipe</button>
           </div>
