@@ -6,6 +6,7 @@ import DrinksInProgress from '../pages/DrinksInProgress';
 function RecipeInProgress() {
   const location = useLocation();
   const { pathname } = location;
+  const { id } = pathname;
 
   return (
     <div>

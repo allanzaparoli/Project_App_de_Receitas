@@ -18,8 +18,6 @@ function DrinkRecipe() {
   const [linkCopied, setLinkCopied] = useState(false);
   const [heartClicked, setHeartClicked] = useState(false);
 
-  console.log(id);
-
   useEffect(() => {
     const getDrinkDetail = async () => {
       const numMax = 6;
