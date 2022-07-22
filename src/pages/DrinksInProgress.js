@@ -51,7 +51,7 @@ function DrinksInProgress() {
                 key={ i + 1 }
                 data-testid={ `${index}-ingredient-step` }
               >
-                { ingredient }
+                { ingredient[1] }
 
               </p>
             ))}

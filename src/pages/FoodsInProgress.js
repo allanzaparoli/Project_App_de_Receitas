@@ -51,7 +51,7 @@ function FoodsInProgress() {
                 key={ i + 1 }
                 data-testid={ `${i}-ingredient-step` }
               >
-                { ingredient }
+                { ingredient[1] }
               </p>
             )) }
             <button type="button" data-testid="finish-recipe-btn">Finish Recipe</button>
