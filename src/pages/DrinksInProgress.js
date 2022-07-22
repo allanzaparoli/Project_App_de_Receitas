@@ -54,8 +54,8 @@ function DrinksInProgress() {
                   key={ i + 1 }
                   data-testid={ `${i}-ingredient-step` }
                 >
+                  <input type="checkbox" />
                   { ingredient[1] }
-                  { console.log(ingredient[1])}
                 </p>)
             ))}
             <button type="button" data-testid="finish-recipe-btn">Finish Recipe</button>

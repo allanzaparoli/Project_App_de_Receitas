@@ -47,12 +47,14 @@ function FoodsInProgress() {
             </div>
             <p data-testid="instructions">{ recipe.strInstructions }</p>
             { getIngredients(recipe).map((ingredient, i) => (
-              (ingredient[1] !== '')
+              !(ingredient[1] === ''
+              || ingredient[1] === null || ingredient[1] === undefined)
               && (
                 <p
                   key={ i + 1 }
                   data-testid={ `${i}-ingredient-step` }
                 >
+                  <input type="checkbox" />
                   { ingredient[1] }
                 </p>)
             )) }
