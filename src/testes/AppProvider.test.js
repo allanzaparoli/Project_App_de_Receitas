@@ -31,7 +31,7 @@ const responseIngredientBanana = {
     },
   ],
 };
-const responseDrinks = {
+  /* const responseDrinks = {
   meals: [
 
     {
@@ -65,7 +65,9 @@ const responseDrinks = {
       idDrink: '12724',
     },
   ],
+
 };
+*/
 describe('Testa o componente AppProvider', () => {
   beforeEach(() => {
     cleanup();
