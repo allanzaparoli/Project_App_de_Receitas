@@ -164,20 +164,4 @@ describe('Testa o componente AppProvider', () => {
       expect(image).toBeInTheDocument();
     });
   });
-  it('Testa ingrediente Drinks', async () => {
-    jest.spyOn(global, 'fetch')
-      .mockResolvedValue(
-        ({ json: jest.fn().mockResolvedValue(responseDrinks) }),
-      );
-    renderWithRouter(<App />);
-    const inputEmail = screen.getByTestId(email);
-    const inputSenha = screen.getByTestId(senha);
-    const buttonLogin = screen.getByTestId(button);
-
-    userEvent.type(inputEmail, bel);
-    userEvent.type(inputSenha, '1234567');
-    userEvent.click(buttonLogin);
-    const btnDrink = screen.getByTestId('drinks-bottom-btn');
-    userEvent.click(btnDrink);
-  });
 });
