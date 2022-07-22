@@ -66,7 +66,7 @@ function DoneRecipes() {
         }, index) => {
           if (type === 'comida') {
             return (
-              // <DoneRecipesFood image category name nationality doneDate tags index />
+              // <DoneRecipesFood receira={ receita } />
               <div className="container-dones" key={ index + 1 }>
                 <div className="container-dones-img">
                   <img
@@ -103,11 +103,10 @@ function DoneRecipes() {
                   <div className="container-dones-info-name">
                     { tags.map((tag, i) => (
                       <span
-                        data-testid={ `${i}-${tag}-horizontal-tag` }
+                        data-testid={ `${index}-${tag}-horizontal-tag` }
                         key={ i + 1 }
                       >
                         { tag }
-                        {' '}
                       </span>))}
                   </div>
                 </div>
