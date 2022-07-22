@@ -31,6 +31,14 @@ function DrinkRecipe() {
     getDrinkDetail();
   }, [id]);
 
+  useEffect(() => {
+    const getFavoritesStorage = JSON.parse(localStorage.getItem('favoriteRecipes')) ?? [];
+    const verifyStorage = getFavoritesStorage.find((favorite) => favorite.id === id);
+    if (verifyStorage) {
+      setHeartClicked(true);
+    }
+  }, []);
+
   const filterIngredientsKeys = () => {
     if (drinkDetail[0]) {
       return Object.keys(drinkDetail[0]).filter((detail) => detail
@@ -63,20 +71,25 @@ function DrinkRecipe() {
     clipboardCopy(window.location.href);
   };
 
-  const handleFavorites = () => {
+  const handleFavorites = (id2) => {
+    setHeartClicked((estadoAnt) => !estadoAnt);
     const currentFavorites = JSON.parse(localStorage.getItem('favoriteRecipes')) ?? [];
-    setFavoritesStorage([
-      ...currentFavorites,
-      {
-        id: drinkDetail[0].idDrink,
-        type: 'drink',
-        nationality: drinkDetail[0].strArea ?? '',
-        category: drinkDetail[0].strCategory ?? '',
-        alcoholicOrNot: drinkDetail[0].strAlcoholic ?? '',
-        name: drinkDetail[0].strDrink,
-        image: drinkDetail[0].strDrinkThumb,
-      }]);
-    setHeartClicked(!heartClicked);
+    if (!heartClicked) {
+      setFavoritesStorage([
+        ...currentFavorites,
+        {
+          id: drinkDetail[0].idDrink,
+          type: 'drink',
+          nationality: drinkDetail[0].strArea ?? '',
+          category: drinkDetail[0].strCategory ?? '',
+          alcoholicOrNot: drinkDetail[0].strAlcoholic ?? '',
+          name: drinkDetail[0].strDrink,
+          image: drinkDetail[0].strDrinkThumb,
+        }]);
+    } else {
+      const filterId = currentFavorites.filter((favorite) => favorite.id !== id2);
+      setFavoritesStorage(filterId);
+    }
   };
 
   return (
@@ -88,7 +101,7 @@ function DrinkRecipe() {
         </button>
         <button
           type="button"
-          onClick={ handleFavorites }
+          onClick={ () => handleFavorites(id) }
         >
           { heartClicked ? (
             <img src={ blackHeartIcon } alt="blackHeartIcon" data-testid="favorite-btn" />

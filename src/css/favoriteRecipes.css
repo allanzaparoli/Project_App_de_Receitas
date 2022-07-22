@@ -1,0 +1,14 @@
+.favorite-card img {
+  height: 100%;
+  width: 50%;
+}
+
+.favorite-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.favorite-card button {
+  width: 50px;
+}
+
