@@ -79,7 +79,9 @@ function AppProvider({ children }) {
 
   const handleSearchClickDrinks = async () => {
     if (radioType === 'ingredient') {
+      console.log('oi');
       const ingredientFilter = await fetchByIngredientDrink(filterSearch);
+      console.log('tchau');
       setRecipesFilter(ingredientFilter);
     }
 
