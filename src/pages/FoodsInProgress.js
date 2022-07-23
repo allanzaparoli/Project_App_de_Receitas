@@ -11,7 +11,6 @@ function FoodsInProgress() {
   const [inProgressStorage, setInProgressStorage] = useLocalStorage('inProgressRecipes');
   const [inProgress, setInProgress] = useState(true);
   const [, setFinishRecipe] = useLocalStorage('doneRecipes');
-  // const [isFinished, setIsFinished] = useState(false);
 
   useEffect(() => {
     const getFoodInProgress = async () => {

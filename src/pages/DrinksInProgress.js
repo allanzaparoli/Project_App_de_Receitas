@@ -8,9 +8,9 @@ import useLocalStorage from '../hooks/useLocalStorage';
 function DrinksInProgress() {
   const { id } = useParams();
   const [drinksInProgress, setdrinksInProgress] = useState([]);
-  // const [check, setCheck] = useState([]);
-  // const [isChecked, setIsChecked] = useState(false);
-  // const [, setProgressStorage] = useLocalStorage('inProgressRecipes');
+  const [, setInProgressStorage] = useLocalStorage('inProgressRecipes');
+  const [inProgress, setInProgress] = useState(true);
+  const [, setFinishRecipe] = useLocalStorage('doneRecipes');
 
   useEffect(() => {
     const getDrinksInProgress = async () => {
@@ -26,10 +26,43 @@ function DrinksInProgress() {
     return arrayIngredients;
   };
 
-  // const handleInputChange = (ingredient, category, id) => {
-  //   const ingredientChecked = JSON.parse(localStorage.getItem('inProgressRecipes')) ?? [];
-  // };
-  console.log(check);
+  const handleCheckbox = ({ target: { value, checked } }) => {
+    const currentInProgress = JSON.parse(localStorage.getItem('inProgressRecipes')) ?? [];
+    let progressList;
+    if (inProgress) {
+      if (!checked) {
+        progressList = currentInProgress.cocktails[id].filter((item) => item !== value);
+      } else {
+        progressList = [...currentInProgress.cocktails[id], value];
+      }
+      setInProgressStorage({
+        ...currentInProgress,
+        meals: {
+          ...currentInProgress.meals,
+          [id]: [...progressList],
+        },
+      });
+    }
+  };
+
+  const handleClickFinished = () => {
+    const finished = JSON.parse(localStorage.getItem('doneRecipes')) ?? [];
+    setFinishRecipe([
+      ...finished,
+      {
+        id: drinksInProgress[0].idDrink,
+        type: 'drink',
+        nationality: drinksInProgress[0].strArea,
+        category: drinksInProgress[0].strCategory,
+        alcoholicOrNot: drinksInProgress[0].strAlcoholic,
+        name: drinksInProgress[0].strDrink,
+        image: drinksInProgress[0].strDrinkThumb,
+        doneDate: new Date(),
+        tags: '',
+      },
+    ]);
+  };
+
   return (
     <div>
       <h1>Drinks in progress!</h1>
@@ -63,13 +96,20 @@ function DrinksInProgress() {
                 >
                   <input
                     type="checkbox"
-                    // onChange={ () => handleInputChange(ingredient[1],
-                    //   recipe.strCategory, idDrink) }
+                    value={ ingredient[1] }
+                    name="ingredients"
+                    onChange={ handleCheckbox }
                   />
                   { ingredient[1] }
                 </p>)
             ))}
-            <button type="button" data-testid="finish-recipe-btn">Finish Recipe</button>
+            <button
+              type="button"
+              data-testid="finish-recipe-btn"
+              onClick={ handleClickFinished }
+            >
+              Finish Recipe
+            </button>
           </div>
         ))}
     </div>

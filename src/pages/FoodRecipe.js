@@ -35,9 +35,9 @@ function FoodRecipe() {
     getFoodDetail();
   }, [id]);
 
-  const finished = () => {
-    finishedRecipe.some((item) => item.id === id);
-  };
+  // const finished = () => {
+  //   finishedRecipe.some((item) => item.id === id);
+  // };
   useEffect(() => {
     const getFavoritesStorage = JSON.parse(localStorage.getItem('favoriteRecipes')) ?? [];
     const verifyStorage = getFavoritesStorage.find((favorite) => favorite.id === id);
