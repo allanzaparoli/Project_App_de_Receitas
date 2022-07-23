@@ -17,7 +17,7 @@ function DrinkRecipe() {
   const [, setFavoritesStorage] = useLocalStorage('favoriteRecipes');
   const [linkCopied, setLinkCopied] = useState(false);
   const [heartClicked, setHeartClicked] = useState(false);
-  // const [start, setStart] = useState(false);
+  const [start, setStart] = useState(false);
   const [inProgressStorage, setInProgressStorage] = useLocalStorage('inProgressRecipes');
 
   useEffect(() => {
@@ -40,6 +40,14 @@ function DrinkRecipe() {
       setHeartClicked(true);
     }
   }, []);
+
+  useEffect(() => {
+    const recipeInProgress = JSON.parse(localStorage.getItem('inProgressRecipes')) ?? {};
+    console.log(recipeInProgress);
+    if (!recipeInProgress.cocktails) {
+      setStart(true);
+    }
+  }, [start]);
 
   const filterIngredientsKeys = () => {
     if (drinkDetail[0]) {
@@ -145,7 +153,7 @@ function DrinkRecipe() {
             ))}
           </ul>
           <p data-testid="instructions">{ recipe.strInstructions }</p>
-          { !Object.entries(inProgressStorage.cocktails)
+          { !start && !Object.entries(inProgressStorage.cocktails)
             .map((ids) => ids[0]).includes(recipe.idDrink)
             ? (
               <button

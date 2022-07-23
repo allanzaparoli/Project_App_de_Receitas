@@ -16,8 +16,7 @@ function Foods() {
   const [foodCategories, setFoodCategories] = useState([]);
   const [foodOption, setFoodOption] = useState('');
   const [optionToggle, setOptionToggle] = useState(false);
-  const [inProgressStorage, setInProgressStorage] = useLocalStorage('inProgressRecipes');
-
+  const [, setInProgressStorage] = useLocalStorage('inProgressRecipes');
 
   const fetchCategories = async () => {
     const categories = await fetch5CategoriesMeals();

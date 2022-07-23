@@ -19,7 +19,7 @@ function FoodsInProgress() {
   }, []);
 
   useEffect(() => {
-    console.log(inProgressStorage.meals);
+    // console.log(inProgressStorage.meals);
   }, []);
 
   const getIngredients = (recipe) => {
@@ -28,19 +28,25 @@ function FoodsInProgress() {
     return arrayIngredients;
   };
 
-  const handleCheckbox = (ingredient, idRecipe) => {
+  const handleCheckbox = (ingredients, idRecipe) => {
     const recipeInProgress = JSON.parse(localStorage.getItem('inProgressRecipes')) ?? [];
+    // const ing = recipeInProgress.meals
     const recipe = Object.entries(recipeInProgress.meals)
-      .find((findId) => findId[0] === idRecipe);
-    if (recipe) {
+      .find((findId) => findId[0] !== idRecipe);
+    if (recipe && recipeInProgress.meals[recipe[0]] === []) {
+      // const aaa = Object.entries(recipeInProgress.meals).map((i) => i[1])
+      //   .filter((iii) => iii === ingredients);
+      // console.log(aaa);
       setInProgressStorage({
         ...recipeInProgress,
         meals: {
           ...recipeInProgress.meals,
-          [recipe[0]]: recipeInProgress.meals[recipe[0]].concat(ingredient),
+          // [recipe[0]]: recipeInProgress.meals[recipe[0]].filter((ingredient) => ingredient === ingredients)
+          [recipe[0]]: recipeInProgress.meals[recipe[0]].concat(ingredients),
         },
       });
     }
+    // console.log(recipeInProgress.meals);
   };
 
   return (

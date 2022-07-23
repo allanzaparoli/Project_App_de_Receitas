@@ -18,7 +18,7 @@ function FoodRecipe() {
   const [, setFavoritesStorage] = useLocalStorage('favoriteRecipes');
   const [linkCopied, setLinkCopied] = useState(false);
   const [heartClicked, setHeartClicked] = useState(false);
-  // const [start, setStart] = useState(false);
+  const [start, setStart] = useState(false);
   const [inProgressStorage, setInProgressStorage] = useLocalStorage('inProgressRecipes');
 
   useEffect(() => {
@@ -42,19 +42,13 @@ function FoodRecipe() {
     }
   }, []);
 
-  // useEffect(() => {
-  //   const recipeInProgress = JSON.parse(localStorage.getItem('inProgressRecipes')) ?? {};
-  //   console.log(recipeInProgress);
-  //   if (!recipeInProgress.meals) {
-  //     setInProgressStorage({
-  //       ...recipeInProgress,
-  //       meals: {
-  //         ...recipeInProgress.meals,
-  //         [id]: [],
-  //       },
-  //     });
-  //   }
-  // }, []);
+  useEffect(() => {
+    const recipeInProgress = JSON.parse(localStorage.getItem('inProgressRecipes')) ?? {};
+    console.log(recipeInProgress);
+    if (!recipeInProgress.meals) {
+      setStart(true);
+    }
+  }, [start]);
 
   const filterIngredientsKeys = () => {
     if (foodDetail[0]) {
@@ -158,8 +152,8 @@ function FoodRecipe() {
             src={ recipe.strYoutube.replace('watch?v=', 'embed/') }
             data-testid="video"
           />
-          { !Object.entries(inProgressStorage.meals)
-            .map((ids) => ids[0]).includes(recipe.idMeal)
+          { !start && !Object.entries(inProgressStorage.meals)
+            ?.map((ids) => ids[0]).includes(recipe.idMeal)
             ? (
               <button
                 type="button"
