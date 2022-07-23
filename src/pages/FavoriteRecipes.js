@@ -19,6 +19,7 @@ function FavoriteRecipes() {
     const getFavorites = () => {
       const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes')) ?? [];
       setFavorites(favoriteRecipes);
+      console.log(favoriteRecipes);
     };
     getFavorites();
   }, []);
