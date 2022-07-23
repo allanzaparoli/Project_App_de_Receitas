@@ -100,6 +100,7 @@ function FoodsInProgress() {
                     type="checkbox"
                     value={ ingredient[1] }
                     name="ingredients"
+                    // className={ (ev.target.checked) ? 'check' : '' }
                     onChange={ handleCheckbox }
                   />
                   { ingredient[1] }
