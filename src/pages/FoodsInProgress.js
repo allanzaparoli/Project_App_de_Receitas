@@ -8,8 +8,8 @@ import useLocalStorage from '../hooks/useLocalStorage';
 function FoodsInProgress() {
   const { id } = useParams();
   const [foodsInProgress, setFoodsInProgress] = useState([]);
-  const [inProgressStorage, setInProgressStorage] = useLocalStorage('inProgressRecipes');
-  const [inProgress, setInProgress] = useState(true);
+  const [, setInProgressStorage] = useLocalStorage('inProgressRecipes');
+  const [inProgress] = useState(true);
   const [, setFinishRecipe] = useLocalStorage('doneRecipes');
 
   useEffect(() => {

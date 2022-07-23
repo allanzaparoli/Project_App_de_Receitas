@@ -19,7 +19,7 @@ function DrinkRecipe() {
   const [heartClicked, setHeartClicked] = useState(false);
   const [start, setStart] = useState(false);
   const [inProgressStorage, setInProgressStorage] = useLocalStorage('inProgressRecipes');
-  const [finishedRecipe, setFinishRecipe] = useLocalStorage('doneRecipes');
+  const [finishedRecipe] = useLocalStorage('doneRecipes');
 
   useEffect(() => {
     const getDrinkDetail = async () => {

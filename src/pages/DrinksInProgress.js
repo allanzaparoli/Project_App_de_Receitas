@@ -9,7 +9,7 @@ function DrinksInProgress() {
   const { id } = useParams();
   const [drinksInProgress, setdrinksInProgress] = useState([]);
   const [, setInProgressStorage] = useLocalStorage('inProgressRecipes');
-  const [inProgress, setInProgress] = useState(true);
+  const [inProgress] = useState(true);
   const [, setFinishRecipe] = useLocalStorage('doneRecipes');
 
   useEffect(() => {
