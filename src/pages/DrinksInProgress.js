@@ -3,10 +3,14 @@ import { useParams } from 'react-router-dom';
 import { fetchRecipeDetailDrink } from '../fetchAPI/searchDrinks';
 import shareIcon from '../images/shareIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
+import useLocalStorage from '../hooks/useLocalStorage';
 
 function DrinksInProgress() {
   const { id } = useParams();
   const [drinksInProgress, setdrinksInProgress] = useState([]);
+  const [check, setCheck] = useState([]);
+  // const [isChecked, setIsChecked] = useState(false);
+  const [, setProgressStorage] = useLocalStorage('inProgressRecipes');
 
   useEffect(() => {
     const getDrinksInProgress = async () => {
@@ -15,7 +19,6 @@ function DrinksInProgress() {
     };
     getDrinksInProgress();
   }, []);
-  console.log(drinksInProgress);
 
   const getIngredients = (recipe) => {
     const arrayIngredients = Object.entries(recipe)
@@ -23,6 +26,10 @@ function DrinksInProgress() {
     return arrayIngredients;
   };
 
+  // const handleInputChange = (ingredient, category, id) => {
+  //   const ingredientChecked = JSON.parse(localStorage.getItem('inProgressRecipes')) ?? [];
+  // };
+  console.log(check);
   return (
     <div>
       <h1>Drinks in progress!</h1>
@@ -54,7 +61,11 @@ function DrinksInProgress() {
                   key={ i + 1 }
                   data-testid={ `${i}-ingredient-step` }
                 >
-                  <input type="checkbox" />
+                  <input
+                    type="checkbox"
+                    // onChange={ () => handleInputChange(ingredient[1],
+                    //   recipe.strCategory, idDrink) }
+                  />
                   { ingredient[1] }
                 </p>)
             ))}

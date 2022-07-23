@@ -17,6 +17,8 @@ function DrinkRecipe() {
   const [, setFavoritesStorage] = useLocalStorage('favoriteRecipes');
   const [linkCopied, setLinkCopied] = useState(false);
   const [heartClicked, setHeartClicked] = useState(false);
+  // const [start, setStart] = useState(false);
+  const [inProgressStorage, setInProgressStorage] = useLocalStorage('inProgressRecipes');
 
   useEffect(() => {
     const getDrinkDetail = async () => {
@@ -61,6 +63,14 @@ function DrinkRecipe() {
   };
 
   const handleStartRecipeButton = () => {
+    const recipeInProgress = JSON.parse(localStorage.getItem('inProgressRecipes')) ?? [];
+    setInProgressStorage({
+      ...recipeInProgress,
+      cocktails: {
+        ...recipeInProgress.cocktails,
+        [id]: [],
+      },
+    });
     if (id) {
       history.push(`/drinks/${id}/in-progress`);
     }
@@ -135,14 +145,27 @@ function DrinkRecipe() {
             ))}
           </ul>
           <p data-testid="instructions">{ recipe.strInstructions }</p>
-          <button
-            type="button"
-            data-testid="start-recipe-btn"
-            className="start-recipe-button"
-            onClick={ handleStartRecipeButton }
-          >
-            Start Recipe
-          </button>
+          { !Object.entries(inProgressStorage.cocktails)
+            .map((ids) => ids[0]).includes(recipe.idDrink)
+            ? (
+              <button
+                type="button"
+                data-testid="start-recipe-btn"
+                className="start-recipe-button"
+                onClick={ handleStartRecipeButton }
+              >
+                Start Recipe
+              </button>
+            ) : (
+              <button
+                type="button"
+                data-testid="start-recipe-btn"
+                className="start-recipe-button"
+                onClick={ handleStartRecipeButton }
+              >
+                Continue Recipe
+              </button>
+            )}
         </div>
       ))}
       <div className="recomendations">

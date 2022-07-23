@@ -18,6 +18,8 @@ function FoodRecipe() {
   const [, setFavoritesStorage] = useLocalStorage('favoriteRecipes');
   const [linkCopied, setLinkCopied] = useState(false);
   const [heartClicked, setHeartClicked] = useState(false);
+  // const [start, setStart] = useState(false);
+  const [inProgressStorage, setInProgressStorage] = useLocalStorage('inProgressRecipes');
 
   useEffect(() => {
     const getFoodDetail = async () => {
@@ -39,6 +41,20 @@ function FoodRecipe() {
       setHeartClicked(true);
     }
   }, []);
+
+  // useEffect(() => {
+  //   const recipeInProgress = JSON.parse(localStorage.getItem('inProgressRecipes')) ?? {};
+  //   console.log(recipeInProgress);
+  //   if (!recipeInProgress.meals) {
+  //     setInProgressStorage({
+  //       ...recipeInProgress,
+  //       meals: {
+  //         ...recipeInProgress.meals,
+  //         [id]: [],
+  //       },
+  //     });
+  //   }
+  // }, []);
 
   const filterIngredientsKeys = () => {
     if (foodDetail[0]) {
@@ -62,6 +78,14 @@ function FoodRecipe() {
   };
 
   const handleStartRecipeButton = () => {
+    const recipeInProgress = JSON.parse(localStorage.getItem('inProgressRecipes')) ?? [];
+    setInProgressStorage({
+      ...recipeInProgress,
+      meals: {
+        ...recipeInProgress.meals,
+        [id]: [],
+      },
+    });
     if (id) {
       history.push(`/foods/${id}/in-progress`);
     }
@@ -134,14 +158,27 @@ function FoodRecipe() {
             src={ recipe.strYoutube.replace('watch?v=', 'embed/') }
             data-testid="video"
           />
-          <button
-            type="button"
-            data-testid="start-recipe-btn"
-            className="start-recipe-button"
-            onClick={ handleStartRecipeButton }
-          >
-            Start Recipe
-          </button>
+          { !Object.entries(inProgressStorage.meals)
+            .map((ids) => ids[0]).includes(recipe.idMeal)
+            ? (
+              <button
+                type="button"
+                data-testid="start-recipe-btn"
+                className="start-recipe-button"
+                onClick={ handleStartRecipeButton }
+              >
+                Start Recipe
+              </button>
+            ) : (
+              <button
+                type="button"
+                data-testid="start-recipe-btn"
+                className="start-recipe-button"
+                onClick={ handleStartRecipeButton }
+              >
+                Continue Recipe
+              </button>
+            )}
         </div>
       ))}
       <div className="recomendations">
