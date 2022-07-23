@@ -44,7 +44,7 @@ function FoodRecipe() {
 
   useEffect(() => {
     const recipeInProgress = JSON.parse(localStorage.getItem('inProgressRecipes')) ?? {};
-    console.log(recipeInProgress);
+    // console.log(recipeInProgress);
     if (!recipeInProgress.meals) {
       setStart(true);
     }
