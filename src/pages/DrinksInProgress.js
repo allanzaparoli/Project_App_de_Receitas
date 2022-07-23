@@ -3,14 +3,14 @@ import { useParams } from 'react-router-dom';
 import { fetchRecipeDetailDrink } from '../fetchAPI/searchDrinks';
 import shareIcon from '../images/shareIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
-import useLocalStorage from '../hooks/useLocalStorage';
+// import useLocalStorage from '../hooks/useLocalStorage';
 
 function DrinksInProgress() {
   const { id } = useParams();
   const [drinksInProgress, setdrinksInProgress] = useState([]);
-  const [check, setCheck] = useState([]);
+  // const [check, setCheck] = useState([]);
   // const [isChecked, setIsChecked] = useState(false);
-  const [, setProgressStorage] = useLocalStorage('inProgressRecipes');
+  // const [, setProgressStorage] = useLocalStorage('inProgressRecipes');
 
   useEffect(() => {
     const getDrinksInProgress = async () => {
