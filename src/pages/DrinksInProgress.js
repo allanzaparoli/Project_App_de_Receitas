@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { fetchRecipeDetailDrink } from '../fetchAPI/searchDrinks';
 import shareIcon from '../images/shareIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
-// import useLocalStorage from '../hooks/useLocalStorage';
+import useLocalStorage from '../hooks/useLocalStorage';
 
 function DrinksInProgress() {
   const { id } = useParams();

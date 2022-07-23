@@ -9,7 +9,9 @@ function FoodsInProgress() {
   const { id } = useParams();
   const [foodsInProgress, setFoodsInProgress] = useState([]);
   const [inProgressStorage, setInProgressStorage] = useLocalStorage('inProgressRecipes');
-  const [isFinished, setIsFinished] = useState(false);
+  const [inProgress, setInProgress] = useState(true);
+  const [, setFinishRecipe] = useLocalStorage('doneRecipes');
+  // const [isFinished, setIsFinished] = useState(false);
 
   useEffect(() => {
     const getFoodInProgress = async () => {
@@ -17,12 +19,6 @@ function FoodsInProgress() {
       setFoodsInProgress(food);
     };
     getFoodInProgress();
-  }, []);
-
-  useEffect(() => {
-    console.log(inProgressStorage.meals);
-
-    // console.log(id);
   }, []);
 
   const getIngredients = (recipe) => {
@@ -34,7 +30,7 @@ function FoodsInProgress() {
   const handleCheckbox = ({ target: { value, checked } }) => {
     const currentInProgress = JSON.parse(localStorage.getItem('inProgressRecipes')) ?? [];
     let progressList;
-    if (!isFinished) {
+    if (inProgress) {
       if (!checked) {
         progressList = currentInProgress.meals[id].filter((item) => item !== value);
       } else {
@@ -48,6 +44,25 @@ function FoodsInProgress() {
         },
       });
     }
+  };
+
+  const handleClickFinished = () => {
+    const finished = JSON.parse(localStorage.getItem('doneRecipes')) ?? [];
+    console.log(finished);
+    setFinishRecipe([
+      ...finished,
+      {
+        id: foodsInProgress[0].idMeal,
+        type: 'food',
+        nationality: foodsInProgress[0].strArea,
+        category: foodsInProgress[0].strCategory,
+        alcoholicOrNot: foodsInProgress[0].strAlcoholic ?? '',
+        name: foodsInProgress[0].strMeal,
+        image: foodsInProgress[0].strMealThumb,
+        doneDate: new Date(),
+        tags: foodsInProgress[0].strTags,
+      },
+    ]);
   };
 
   return (
@@ -85,13 +100,19 @@ function FoodsInProgress() {
                   <input
                     type="checkbox"
                     value={ ingredient[1] }
+                    name="ingredients"
                     onChange={ handleCheckbox }
-                    // checked=""
                   />
                   { ingredient[1] }
                 </p>)
             )) }
-            <button type="button" data-testid="finish-recipe-btn">Finish Recipe</button>
+            <button
+              type="button"
+              data-testid="finish-recipe-btn"
+              onClick={ handleClickFinished }
+            >
+              Finish Recipe
+            </button>
           </div>
         )) }
 
