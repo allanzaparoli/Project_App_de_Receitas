@@ -5,18 +5,23 @@ import DoneRecipesFood from '../components/DoneRecipesFood';
 import DoneRecipesDrinks from '../components/DoneRecipesDrink';
 
 function DoneRecipes() {
-  const [filterAll, setFilterAll] = useState(true);
   const [filterFood, setFilterFood] = useState(false);
   const [filterDrink, setFilterDrink] = useState(false);
 
+  const handleFilterAll = () => {
+    // setFilterAll(true);
+    setFilterFood(false);
+    setFilterDrink(false);
+  };
+
   const handleFilterFood = () => {
-    setFilterAll(false);
+    // setFilterAll(false);
     setFilterDrink(false);
     setFilterFood(true);
   };
 
   const handleFilterDrink = () => {
-    setFilterAll(false);
+    // setFilterAll(false);
     setFilterFood(false);
     setFilterDrink(true);
   };
@@ -27,7 +32,7 @@ function DoneRecipes() {
       <button
         type="button"
         data-testid="filter-by-all-btn"
-        onClick={ () => setFilterAll(true) }
+        onClick={ handleFilterAll }
         name="All"
         value="All"
       >
@@ -51,14 +56,14 @@ function DoneRecipes() {
       >
         Drinks
       </button>
-      { filterAll && (
+      { (!filterFood && !filterDrink) && (
         <div>
           <DoneRecipesFood />
           <DoneRecipesDrinks />
         </div>
       )}
-      { (!filterAll && filterFood) && <DoneRecipesFood /> }
-      { (!filterAll && filterDrink) && <DoneRecipesDrinks /> }
+      { (filterFood) && <DoneRecipesFood /> }
+      { (filterDrink) && <DoneRecipesDrinks /> }
     </div>
   );
 }

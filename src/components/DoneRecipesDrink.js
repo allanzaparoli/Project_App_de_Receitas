@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import shareIcon from '../images/shareIcon.svg';
 
 function DoneRecipesDrinks() {
+  const history = useHistory();
   const [share, setShare] = useState(false);
   const number = 1000;
 
@@ -11,8 +13,7 @@ function DoneRecipesDrinks() {
   };
 
   const handleClickShare = (id) => {
-    const url = `http://localhost:3000/foods/${id}`;
-    console.log(url);
+    const url = `http://localhost:3000/drinks/${id}`;
     navigator.clipboard.writeText(url);
     setShare(true);
   };
@@ -23,6 +24,10 @@ function DoneRecipesDrinks() {
     }
   }, number);
 
+  const handleClickImg = (id) => {
+    history.push(`/drinks/${id}`);
+  };
+
   return (
     <div>
       <h2>Bebidas Separadas</h2>
@@ -30,12 +35,14 @@ function DoneRecipesDrinks() {
       { callLocalStorage().map((recipe, index) => (
         <div className="container-dones" key={ index + 1 }>
           <div className="container-dones-img">
-            <img
-              className="img-recipes-done"
-              src={ recipe.image }
-              alt={ recipe.name }
-              data-testid={ `${index}-horizontal-image` }
-            />
+            <button type="button" onClick={ () => handleClickImg(recipe.id) }>
+              <img
+                className="img-recipes-done"
+                src={ recipe.image }
+                alt={ recipe.name }
+                data-testid={ `${index}-horizontal-image` }
+              />
+            </button>
           </div>
           <div className="container-dones-info">
             <div className="container-dones-info-share">
@@ -45,6 +52,7 @@ function DoneRecipesDrinks() {
                 { recipe.alcoholicOrNot }
               </p>
               <button
+                src={ shareIcon }
                 type="button"
                 data-testid={ `${index}-horizontal-share-btn` }
                 onClick={ () => handleClickShare(recipe.id) }

@@ -21,6 +21,7 @@ function FoodRecipe() {
   const [start, setStart] = useState(false);
   const [inProgressStorage, setInProgressStorage] = useLocalStorage('inProgressRecipes');
   const [finishedRecipe] = useLocalStorage('doneRecipes');
+  const number = 1000;
 
   useEffect(() => {
     const getFoodDetail = async () => {
@@ -89,6 +90,12 @@ function FoodRecipe() {
     setLinkCopied(true);
     clipboardCopy(window.location.href);
   };
+
+  setTimeout(() => {
+    if (linkCopied) {
+      setLinkCopied(false);
+    }
+  }, number);
 
   const handleFavorites = (id2) => {
     setHeartClicked((estadoAnt) => !estadoAnt);

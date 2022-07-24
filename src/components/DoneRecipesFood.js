@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import shareIcon from '../images/shareIcon.svg';
 
 function DoneRecipesFood() {
+  const history = useHistory();
   const [share, setShare] = useState(false);
   const number = 1000;
 
@@ -25,6 +27,10 @@ function DoneRecipesFood() {
     }
   }, number);
 
+  const handleClickImg = (id) => {
+    history.push(`/foods/${id}`);
+  };
+
   return (
     <div>
       <h2>Comidas Separadas</h2>
@@ -32,12 +38,14 @@ function DoneRecipesFood() {
       { callLocalStorage().map((recipe, index) => (
         <div className="container-dones" key={ index + 1 }>
           <div className="container-dones-img">
-            <img
-              className="img-recipes-done"
-              src={ recipe.image }
-              alt={ recipe.name }
-              data-testid={ `${index}-horizontal-image` }
-            />
+            <button type="button" onClick={ () => handleClickImg(recipe.id) }>
+              <img
+                className="img-recipes-done"
+                src={ recipe.image }
+                alt={ recipe.name }
+                data-testid={ `${index}-horizontal-image` }
+              />
+            </button>
           </div>
           <div className="container-dones-info">
             <div className="container-dones-info-share">
@@ -47,6 +55,7 @@ function DoneRecipesFood() {
                 { `${recipe.nationality} - ${recipe.category}` }
               </p>
               <button
+                src={ shareIcon }
                 type="button"
                 data-testid={ `${index}-horizontal-share-btn` }
                 onClick={ () => handleClickShare(recipe.id) }
@@ -63,17 +72,17 @@ function DoneRecipesFood() {
             <div className="container-dones-info-name">
               { console.log(recipe.tags)}
               { (recipe.tags
-                    || !recipe.tags === null
-                    || !recipe.tags === undefined
-                    || !recipe.tags === '')
-                    && recipe.tags.split(',', 2).map((tag, i) => (
+                    || recipe.tags === null
+                    || recipe.tags === undefined
+                    || recipe.tags === '')
+                    || recipe.tags.map((tag, i) => (
                       <span
                         key={ i + 1 }
-                        data-testid={ `${index}-${recipe.tags}-horizontal-tag` }
+                        data-testid={ `${index}-${tag}-horizontal-tag` }
                       >
+                        { ' '}
                         {tag}
                       </span>
-
                     ))}
             </div>
           </div>
