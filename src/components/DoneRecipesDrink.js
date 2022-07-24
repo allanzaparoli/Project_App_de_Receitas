@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import shareIcon from '../images/shareIcon.svg';
 
-function DoneRecipesFood() {
+function DoneRecipesDrinks() {
   const [share, setShare] = useState(false);
   const number = 1000;
 
   const callLocalStorage = () => {
     const doneRecipesStorage = JSON.parse(localStorage.getItem('doneRecipes')) ?? [];
-    return doneRecipesStorage.filter((recipe) => recipe.type === 'food');
+    return doneRecipesStorage.filter((recipe) => recipe.type === 'drink');
   };
 
   const handleClickShare = (id) => {
@@ -25,7 +25,7 @@ function DoneRecipesFood() {
 
   return (
     <div>
-      <h2>Comidas Separadas</h2>
+      <h2>Bebidas Separadas</h2>
       { share && <span>Link copied!</span> }
       { callLocalStorage().map((recipe, index) => (
         <div className="container-dones" key={ index + 1 }>
@@ -40,16 +40,16 @@ function DoneRecipesFood() {
           <div className="container-dones-info">
             <div className="container-dones-info-share">
               <p
-                data-testid={ `${index}-horizontal-top-text` }
+                data-testId={ `${index}-horizontal-top-text` }
               >
-                { `${recipe.nationality} - ${recipe.category}` }
+                { recipe.alcoholicOrNot }
               </p>
               <button
                 type="button"
                 data-testid={ `${index}-horizontal-share-btn` }
                 onClick={ () => handleClickShare(recipe.id) }
               >
-                <img className="shareIcon" src={ shareIcon } alt="shareIcon" />
+                <img src={ shareIcon } alt="shareIcon" />
               </button>
             </div>
             <h3 data-testid={ `${index}-horizontal-name` }>{ recipe.name }</h3>
@@ -58,19 +58,6 @@ function DoneRecipesFood() {
             >
               { `Done in: ${recipe.doneDate}` }
             </p>
-            <div className="container-dones-info-name">
-              { (recipe.tags
-                    || !recipe.tags === null
-                    || !recipe.tags === undefined
-                    || !recipe.tags === '')
-                    && (
-                      <span
-                        data-testid={ `${index}-${recipe.tags}-horizontal-tag` }
-                      >
-                        {recipe.tags}
-                      </span>
-                    )}
-            </div>
           </div>
         </div>
       ))}
@@ -78,4 +65,4 @@ function DoneRecipesFood() {
   );
 }
 
-export default DoneRecipesFood;
+export default DoneRecipesDrinks;

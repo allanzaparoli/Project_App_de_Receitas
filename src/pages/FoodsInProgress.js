@@ -4,6 +4,7 @@ import { fetchRecipeDetail } from '../fetchAPI/searchFoods';
 import shareIcon from '../images/shareIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import useLocalStorage from '../hooks/useLocalStorage';
+import '../css/foodsInProgress.css';
 
 function FoodsInProgress() {
   const { id } = useParams();
@@ -71,6 +72,7 @@ function FoodsInProgress() {
         .map((recipe, index) => (
           <div key={ index + 1 }>
             <img
+              className="img-foods-in-progress"
               src={ recipe.strMealThumb }
               alt="recipe-in-progress"
               data-testid="recipe-photo"
