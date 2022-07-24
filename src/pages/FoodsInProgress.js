@@ -48,7 +48,7 @@ function FoodsInProgress() {
 
   const handleClickFinished = () => {
     const finished = JSON.parse(localStorage.getItem('doneRecipes')) ?? [];
-    console.log(finished);
+
     setFinishRecipe([
       ...finished,
       {
@@ -60,7 +60,7 @@ function FoodsInProgress() {
         name: foodsInProgress[0].strMeal,
         image: foodsInProgress[0].strMealThumb,
         doneDate: new Date(),
-        tags: foodsInProgress[0].strTags,
+        tags: foodsInProgress[0].strTags.split(','),
       },
     ]);
   };

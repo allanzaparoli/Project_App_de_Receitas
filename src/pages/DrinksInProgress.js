@@ -59,7 +59,7 @@ function DrinksInProgress() {
         name: drinksInProgress[0].strDrink,
         image: drinksInProgress[0].strDrinkThumb,
         doneDate: new Date(),
-        tags: '',
+        tags: [],
       },
     ]);
   };

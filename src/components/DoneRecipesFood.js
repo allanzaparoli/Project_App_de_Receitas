@@ -10,6 +10,8 @@ function DoneRecipesFood() {
     return doneRecipesStorage.filter((recipe) => recipe.type === 'food');
   };
 
+  //   callLocalStorage().map((item) => console.log(item.join(',')));
+
   const handleClickShare = (id) => {
     const url = `http://localhost:3000/foods/${id}`;
     console.log(url);
@@ -59,17 +61,20 @@ function DoneRecipesFood() {
               { `Done in: ${recipe.doneDate}` }
             </p>
             <div className="container-dones-info-name">
+              { console.log(recipe.tags)}
               { (recipe.tags
                     || !recipe.tags === null
                     || !recipe.tags === undefined
                     || !recipe.tags === '')
-                    && (
+                    && recipe.tags.split(',', 2).map((tag, i) => (
                       <span
+                        key={ i + 1 }
                         data-testid={ `${index}-${recipe.tags}-horizontal-tag` }
                       >
-                        {recipe.tags}
+                        {tag}
                       </span>
-                    )}
+
+                    ))}
             </div>
           </div>
         </div>
