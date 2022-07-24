@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { fetchRecipeDetail } from '../fetchAPI/searchFoods';
 import shareIcon from '../images/shareIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
@@ -7,6 +7,7 @@ import useLocalStorage from '../hooks/useLocalStorage';
 import '../css/foodsInProgress.css';
 
 function FoodsInProgress() {
+  const history = useHistory();
   const { id } = useParams();
   const [foodsInProgress, setFoodsInProgress] = useState([]);
   const [, setInProgressStorage] = useLocalStorage('inProgressRecipes');
@@ -63,6 +64,7 @@ function FoodsInProgress() {
         tags: foodsInProgress[0].strTags.split(','),
       },
     ]);
+    history.push('/done-recipes');
   };
 
   return (

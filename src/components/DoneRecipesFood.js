@@ -33,7 +33,6 @@ function DoneRecipesFood() {
 
   return (
     <div>
-      <h2>Comidas Separadas</h2>
       { share && <span>Link copied!</span> }
       { callLocalStorage().map((recipe, index) => (
         <div className="container-dones" key={ index + 1 }>
