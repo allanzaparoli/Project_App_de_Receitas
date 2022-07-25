@@ -1,7 +1,7 @@
 .header {
   align-items: center;
-  background-color: #F25252;
-  color: #F2F2F2;
+  background-color: #f25252;
+  color: #f2f2f2;
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
@@ -30,15 +30,15 @@
 }
 
 .btn-header {
+  background-color: #f2f2f2;
   border: none;
   border-radius: 50%;
-  background-color: #F2F2F2;
   padding: 20%;
 }
 
 .btn-header-src {
+  background-color: #f2f2f2;
   border: none;
   border-radius: 55%;
-  background-color: #F2F2F2;
   padding: 2%;
 }

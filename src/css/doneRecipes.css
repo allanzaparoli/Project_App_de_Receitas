@@ -1,5 +1,5 @@
-body{
-  background-color: #F2F2F2;
+body {
+  background-color: #f2f2f2;
 }
 
 .container-dones {
@@ -51,35 +51,33 @@ body{
 }
 
 .btn-done {
-  border: none;
   background-color: rgba(242, 82, 82, 0.01);
+  border: none;
 }
 
 .container-buttons-done {
-  /* border: 1px solid salmon; */
   display: flex;
   justify-content: space-between;
 }
 
 .buttons-done {
-  background-color: #F2B6BB;
+  background-color: #f2b6bb;
   border: none;
   border-radius: 5px;
-  color: #F2F2F2;
-  font-weight: bold;
+  color: #f2f2f2;
   height: 30px;
   margin-bottom: 3%;
   width: 33%;
 }
 
 .buttons-done:hover {
-  color: #F2A74B;
+  color: #f2a74b;
 }
 
 .name-done:hover {
-  color: #F2A74B;
+  color: #f2a74b;
 }
 
-.text-done{
-  color: #F25252;
+.text-done {
+  color: #f25252;
 }

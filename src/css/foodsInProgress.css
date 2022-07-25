@@ -19,7 +19,7 @@
   display: flex;
   height: 50px;
   justify-content: space-between;
-  margin: 10px 10px 0 10px;
+  margin: 10px 10px 0;
 }
 
 .progress-categories {
@@ -31,23 +31,23 @@
 
 .recipe-in-progress-btn {
   display: flex;
-  width: 80%;
   justify-content: flex-end;
   margin: 0 10px 0 0;
+  width: 80%;
 }
 
 .btn-finish {
-  background-color: #F25252;
+  background-color: #f25252;
   border: none;
-  color: #F2F2F2;
-  font-weight: bolder;
+  color: #f2f2f2;
   font-size: 25px;
+  font-weight: 900;
   height: 50px;
 }
 
 .btn-progress {
-  border: none;
   background-color: rgba(242, 182, 187, 0.05);
+  border: none;
 }
 
 .instructions {
