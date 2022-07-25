@@ -1,26 +1,74 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { fetchRecipeDetailDrink } from '../fetchAPI/searchDrinks';
 import shareIcon from '../images/shareIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
+import useLocalStorage from '../hooks/useLocalStorage';
+import '../css/drinksInProgress.css';
 
 function DrinksInProgress() {
+  const history = useHistory();
   const { id } = useParams();
   const [drinksInProgress, setdrinksInProgress] = useState([]);
+  const [, setInProgressStorage] = useLocalStorage('inProgressRecipes');
+  const [inProgress] = useState(true);
+  const [, setFinishRecipe] = useLocalStorage('doneRecipes');
 
   useEffect(() => {
     const getDrinksInProgress = async () => {
-      const drink = await fetchRecipeDetailDrink(id);
-      setdrinksInProgress(drink);
+      if (id) {
+        const drink = await fetchRecipeDetailDrink(id);
+        setdrinksInProgress(drink);
+      }
     };
     getDrinksInProgress();
   }, []);
-  console.log(drinksInProgress);
 
   const getIngredients = (recipe) => {
-    const arrayIngredients = Object.entries(recipe)
-      .filter((ingredient) => ingredient[0].includes('strIngredient'));
-    return arrayIngredients;
+    if (drinksInProgress) {
+      const arrayIngredients = Object.entries(recipe)
+        .filter((ingredient) => ingredient[0].includes('strIngredient'));
+      return arrayIngredients;
+    }
+  };
+
+  const handleCheckbox = ({ target: { value, checked } }) => {
+    const currentInProgress = JSON.parse(localStorage.getItem('inProgressRecipes')) ?? [];
+    let progressList;
+    if (inProgress) {
+      if (!checked) {
+        progressList = currentInProgress.cocktails[id].filter((item) => item !== value);
+      } else {
+        progressList = [...currentInProgress.cocktails[id], value];
+      }
+      setInProgressStorage({
+        ...currentInProgress,
+        cocktails: {
+          ...currentInProgress.cocktails,
+          [id]: [...progressList],
+        },
+      });
+    }
+  };
+
+  const handleClickFinished = () => {
+    const finished = JSON.parse(localStorage.getItem('doneRecipes')) ?? [];
+
+    setFinishRecipe([
+      ...finished,
+      {
+        id: drinksInProgress[0].idDrink,
+        type: 'drink',
+        nationality: drinksInProgress[0].strArea,
+        category: drinksInProgress[0].strCategory,
+        alcoholicOrNot: drinksInProgress[0].strAlcoholic,
+        name: drinksInProgress[0].strDrink,
+        image: drinksInProgress[0].strDrinkThumb,
+        doneDate: new Date(),
+        tags: [],
+      },
+    ]);
+    history.push('/done-recipes');
   };
 
   return (
@@ -30,6 +78,7 @@ function DrinksInProgress() {
         .map((recipe, index) => (
           <div key={ index + 1 }>
             <img
+              className="img-drinks-in-progress"
               src={ recipe.strDrinkThumb }
               alt="recipe-in-progress"
               data-testid="recipe-photo"
@@ -54,11 +103,22 @@ function DrinksInProgress() {
                   key={ i + 1 }
                   data-testid={ `${i}-ingredient-step` }
                 >
-                  <input type="checkbox" />
+                  <input
+                    type="checkbox"
+                    value={ ingredient[1] }
+                    name="ingredients"
+                    onChange={ handleCheckbox }
+                  />
                   { ingredient[1] }
                 </p>)
             ))}
-            <button type="button" data-testid="finish-recipe-btn">Finish Recipe</button>
+            <button
+              type="button"
+              data-testid="finish-recipe-btn"
+              onClick={ handleClickFinished }
+            >
+              Finish Recipe
+            </button>
           </div>
         ))}
     </div>

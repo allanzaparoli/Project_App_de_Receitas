@@ -17,6 +17,10 @@ function DrinkRecipe() {
   const [, setFavoritesStorage] = useLocalStorage('favoriteRecipes');
   const [linkCopied, setLinkCopied] = useState(false);
   const [heartClicked, setHeartClicked] = useState(false);
+  const [start, setStart] = useState(false);
+  const [inProgressStorage, setInProgressStorage] = useLocalStorage('inProgressRecipes');
+  const [finishedRecipe] = useLocalStorage('doneRecipes');
+  const number = 500;
 
   useEffect(() => {
     const getDrinkDetail = async () => {
@@ -38,6 +42,14 @@ function DrinkRecipe() {
       setHeartClicked(true);
     }
   }, []);
+
+  useEffect(() => {
+    const recipeInProgress = JSON.parse(localStorage.getItem('inProgressRecipes')) ?? {};
+    console.log(recipeInProgress);
+    if (!recipeInProgress.cocktails) {
+      setStart(true);
+    }
+  }, [start]);
 
   const filterIngredientsKeys = () => {
     if (drinkDetail[0]) {
@@ -61,6 +73,14 @@ function DrinkRecipe() {
   };
 
   const handleStartRecipeButton = () => {
+    const recipeInProgress = JSON.parse(localStorage.getItem('inProgressRecipes')) ?? [];
+    setInProgressStorage({
+      ...recipeInProgress,
+      cocktails: {
+        ...recipeInProgress.cocktails,
+        [id]: [],
+      },
+    });
     if (id) {
       history.push(`/drinks/${id}/in-progress`);
     }
@@ -70,6 +90,12 @@ function DrinkRecipe() {
     setLinkCopied(true);
     clipboardCopy(window.location.href);
   };
+
+  setTimeout(() => {
+    if (linkCopied) {
+      setLinkCopied(false);
+    }
+  }, number);
 
   const handleFavorites = (id2) => {
     setHeartClicked((estadoAnt) => !estadoAnt);
@@ -135,14 +161,22 @@ function DrinkRecipe() {
             ))}
           </ul>
           <p data-testid="instructions">{ recipe.strInstructions }</p>
-          <button
-            type="button"
-            data-testid="start-recipe-btn"
-            className="start-recipe-button"
-            onClick={ handleStartRecipeButton }
-          >
-            Start Recipe
-          </button>
+          {/* { !start && !Object.entries(inProgressStorage.cocktails)
+            .map((ids) => ids[0]).includes(recipe.idDrink)
+            ? ( */}
+          { !finishedRecipe?.some((item) => item.id === id)
+            ? (
+              <button
+                type="button"
+                data-testid="start-recipe-btn"
+                className="start-recipe-button"
+                onClick={ handleStartRecipeButton }
+              >
+                { !start && !Object.entries(inProgressStorage.cocktails)
+                  ?.map((ids) => ids[0]).includes(recipe.idDrink)
+                  ? 'Start Recipe' : 'Continue Recipe' }
+              </button>
+            ) : ''}
         </div>
       ))}
       <div className="recomendations">
