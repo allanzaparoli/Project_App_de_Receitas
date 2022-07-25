@@ -8,6 +8,7 @@ import { fetch12Meals, fetch5CategoriesMeals,
   fetchByCategoryMeal } from '../fetchAPI/searchFoods';
 import '../css/foods.css';
 import RecipeDetails from '../components/RecipeDetails';
+import useLocalStorage from '../hooks/useLocalStorage';
 
 function Foods() {
   const { recipesFilter, setRecipesFilter } = useContext(AppContext);
@@ -15,6 +16,7 @@ function Foods() {
   const [foodCategories, setFoodCategories] = useState([]);
   const [foodOption, setFoodOption] = useState('');
   const [optionToggle, setOptionToggle] = useState(false);
+  const [, setInProgressStorage] = useLocalStorage('inProgressRecipes');
 
   const fetchCategories = async () => {
     const categories = await fetch5CategoriesMeals();
@@ -40,6 +42,22 @@ function Foods() {
     };
     waitFetch();
   }, [foodOption]);
+
+  useEffect(() => {
+    const recipeInProgress = JSON.parse(localStorage.getItem('inProgressRecipes')) ?? {};
+    // console.log(recipeInProgress);
+    if (!recipeInProgress.meals) {
+      setInProgressStorage({
+        ...recipeInProgress,
+        meals: {
+          ...recipeInProgress.meals,
+        },
+        cocktails: {
+          ...recipeInProgress.cocktails,
+        },
+      });
+    }
+  }, []);
 
   const handleCategoryClick = ({ target: { value } }) => {
     setFoodOption(value);

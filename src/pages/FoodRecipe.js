@@ -18,6 +18,10 @@ function FoodRecipe() {
   const [, setFavoritesStorage] = useLocalStorage('favoriteRecipes');
   const [linkCopied, setLinkCopied] = useState(false);
   const [heartClicked, setHeartClicked] = useState(false);
+  const [start, setStart] = useState(false);
+  const [inProgressStorage, setInProgressStorage] = useLocalStorage('inProgressRecipes');
+  const [finishedRecipe] = useLocalStorage('doneRecipes');
+  const number = 500;
 
   useEffect(() => {
     const getFoodDetail = async () => {
@@ -39,6 +43,13 @@ function FoodRecipe() {
       setHeartClicked(true);
     }
   }, []);
+
+  useEffect(() => {
+    const recipeInProgress = JSON.parse(localStorage.getItem('inProgressRecipes')) ?? {};
+    if (!recipeInProgress.meals) {
+      setStart(true);
+    }
+  }, [start]);
 
   const filterIngredientsKeys = () => {
     if (foodDetail[0]) {
@@ -62,6 +73,14 @@ function FoodRecipe() {
   };
 
   const handleStartRecipeButton = () => {
+    const recipeInProgress = JSON.parse(localStorage.getItem('inProgressRecipes')) ?? [];
+    setInProgressStorage({
+      ...recipeInProgress,
+      meals: {
+        ...recipeInProgress.meals,
+        [id]: [],
+      },
+    });
     if (id) {
       history.push(`/foods/${id}/in-progress`);
     }
@@ -71,6 +90,12 @@ function FoodRecipe() {
     setLinkCopied(true);
     clipboardCopy(window.location.href);
   };
+
+  setTimeout(() => {
+    if (linkCopied) {
+      setLinkCopied(false);
+    }
+  }, number);
 
   const handleFavorites = (id2) => {
     setHeartClicked((estadoAnt) => !estadoAnt);
@@ -134,14 +159,20 @@ function FoodRecipe() {
             src={ recipe.strYoutube.replace('watch?v=', 'embed/') }
             data-testid="video"
           />
-          <button
-            type="button"
-            data-testid="start-recipe-btn"
-            className="start-recipe-button"
-            onClick={ handleStartRecipeButton }
-          >
-            Start Recipe
-          </button>
+          { !finishedRecipe?.some((item) => item.id === id)
+            ? (
+              <button
+                type="button"
+                data-testid="start-recipe-btn"
+                className="start-recipe-button"
+                onClick={ handleStartRecipeButton }
+              >
+                { !start && !Object.entries(inProgressStorage.meals)
+                  ?.map((ids) => ids[0]).includes(recipe.idMeal)
+                  ? 'Start Recipe' : 'Continue Recipe' }
+              </button>
+            )
+            : '' }
         </div>
       ))}
       <div className="recomendations">
