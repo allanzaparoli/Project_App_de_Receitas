@@ -1,0 +1,32 @@
+.emailProfile {
+  margin: 3rem 2.5rem;
+}
+
+.buttonsProfile {
+  display: flex;
+  margin: 4rem 2rem;
+}
+
+.doneProfile {
+  margin: 0.2rem;
+}
+
+.favoriteProfile {
+  margin: 0.2rem;
+}
+
+.logoutProfile {
+  margin: 0.2rem;
+}
+
+.bLogoutProfile {
+  border-radius: 5px;
+}
+
+.bDoneProfile {
+  border-radius: 5px;
+}
+
+.bFavoriteProfile {
+  border-radius: 5px;
+}
