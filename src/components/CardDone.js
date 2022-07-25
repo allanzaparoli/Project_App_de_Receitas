@@ -27,8 +27,12 @@ function CardDone() {
     }
   }, number);
 
-  const handleClickImg = (id) => {
-    history.push(`/foods/${id}`);
+  const handleClickDone = (id, type) => {
+    if (type === 'food') {
+      history.push(`/foods/${id}`);
+    } else {
+      history.push(`/drinks/${id}`);
+    }
   };
 
   return (
@@ -38,7 +42,10 @@ function CardDone() {
         .map((recipe, index) => (
           <div className="container-dones" key={ index + 1 }>
             <div className="container-dones-img">
-              <button type="button" onClick={ () => handleClickImg(recipe.id) }>
+              <button
+                type="button"
+                onClick={ () => handleClickDone(recipe.id, recipe.type) }
+              >
                 <img
                   className="img-recipes-done"
                   src={ recipe.image }
@@ -73,7 +80,12 @@ function CardDone() {
                   <img className="shareIcon" src={ shareIcon } alt="shareIcon" />
                 </button>
               </div>
-              <h3 data-testid={ `${index}-horizontal-name` }>{ recipe.name }</h3>
+              <button
+                type="button"
+                onClick={ () => handleClickDone(recipe.id, recipe.type) }
+              >
+                <h3 data-testid={ `${index}-horizontal-name` }>{ recipe.name }</h3>
+              </button>
               <p
                 data-testid={ `${index}-horizontal-done-date` }
               >
