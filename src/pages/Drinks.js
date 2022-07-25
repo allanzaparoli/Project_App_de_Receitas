@@ -104,26 +104,28 @@ function Drinks() {
     <div>
       <Header title="Drinks" profile search />
       <Recipes>
-        <button
-          type="button"
-          data-testid="All-category-filter"
-          onClick={ handleAllClick }
-          name="All"
-          value="All"
-        >
-          All
-        </button>
-        { drinkCategories.map((category, index) => (
+        <div className="category-buttons-drinks">
           <button
             type="button"
-            key={ index }
-            data-testid={ `${category.strCategory}-category-filter` }
-            value={ category.strCategory }
-            onClick={ handleCategoryClick }
+            data-testid="All-category-filter"
+            onClick={ handleAllClick }
+            name="All"
+            value="All"
           >
-            {category.strCategory}
+            All
           </button>
-        ))}
+          { drinkCategories.map((category, index) => (
+            <button
+              type="button"
+              key={ index }
+              data-testid={ `${category.strCategory}-category-filter` }
+              value={ category.strCategory }
+              onClick={ handleCategoryClick }
+            >
+              {category.strCategory}
+            </button>
+          ))}
+        </div>
         { recipesFilter && recipeLimit(recipesFilter).map((recipe, index) => (
           <button
             type="button"

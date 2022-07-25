@@ -5,7 +5,7 @@
   color: #f2f2f2;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 22px;
   margin-left: 10px;
   margin-top: 120px;
   padding: 30px;
@@ -14,9 +14,9 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Caveat&family=Edu+VIC+WA+NT+Beginner:wght@500&family=Square+Peg&display=swap') ;
 
-h1 {
+.login h1 {
   font-family: Caveat , cursive;
-  font-size: 70px;
+  font-size: 68px;
   margin-bottom: 6px;
   margin-top: -20px;
 }
@@ -26,17 +26,17 @@ h1 {
   border-radius: 6px;
   display: flex;
   margin-left: 8px;
-  margin-top: 6px;
-  padding: 6px;
+  margin-top: 10px;
+  padding: 9px;
 }
 
 .login button {
-  background-color: rgb(234, 157, 131);
+  background-color: #f2b6bb;
   border: none;
   border-radius: 10px;
   color: #f25252;
   font-weight: 800;
-  padding: 11px 30px;
+  padding: 10px 50px;
 }
 
 .login-background {

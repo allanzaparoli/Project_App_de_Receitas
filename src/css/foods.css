@@ -7,3 +7,19 @@
   display: flex;
   flex-direction: column;
 }
+
+.category-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  margin-bottom: 8px;
+  margin-top: 8px;
+}
+
+.category-buttons button {
+  background-color: #f2b6bb;
+  border: none;
+  border-radius: 2px;
+  color: white;
+  padding: 6px 10px;
+}
