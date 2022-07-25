@@ -55,35 +55,40 @@ function FavoriteRecipes() {
   }, [filter]);
 
   return (
-    <div>
+    <div className="divFavorites">
       <Header title="Favorite Recipes" profile />
-      <button
-        type="button"
-        data-testid="filter-by-all-btn"
-        onClick={ handleFilterButton }
-        name="all"
-        value="all"
-      >
-        All
-      </button>
-      <button
-        type="button"
-        data-testid="filter-by-food-btn"
-        onClick={ handleFilterButton }
-        name="food"
-        value="food"
-      >
-        Food
-      </button>
-      <button
-        type="button"
-        data-testid="filter-by-drink-btn"
-        onClick={ handleFilterButton }
-        name="drink"
-        value="drink"
-      >
-        Drink
-      </button>
+      <div className="butons">
+        <button
+          className="buttonAll"
+          type="button"
+          data-testid="filter-by-all-btn"
+          onClick={ handleFilterButton }
+          name="all"
+          value="all"
+        >
+          All
+        </button>
+        <button
+          className="buttonFood"
+          type="button"
+          data-testid="filter-by-food-btn"
+          onClick={ handleFilterButton }
+          name="food"
+          value="food"
+        >
+          Food
+        </button>
+        <button
+          className="buttonDrink"
+          type="button"
+          data-testid="filter-by-drink-btn"
+          onClick={ handleFilterButton }
+          name="drink"
+          value="drink"
+        >
+          Drink
+        </button>
+      </div>
       { favorites && favorites.map((favorite, index) => (
         <div className="favorite-card" key={ index }>
           <Link
@@ -91,6 +96,7 @@ function FavoriteRecipes() {
               `/foods/${favorite.id}`) : (`/drinks/${favorite.id}`) }
           >
             <img
+              className="favoriteImg"
               src={ favorite.image }
               alt="strMealThumb"
               data-testid={ `${index}-horizontal-image` }
@@ -107,6 +113,7 @@ function FavoriteRecipes() {
             </h4>) }
           { linkCopied && <p>Link copied!</p> }
           <button
+            className="buttonCompartilhar"
             type="button"
             onClick={ () => handleShareClick(favorite.id) }
           >
@@ -116,7 +123,11 @@ function FavoriteRecipes() {
               data-testid={ `${index}-horizontal-share-btn` }
             />
           </button>
-          <button type="button" onClick={ () => handleFavorites(favorite.id) }>
+          <button
+            type="button"
+            onClick={ () => handleFavorites(favorite.id) }
+            className="buttonFavoritar"
+          >
             <img
               src={ heartClicked ? blackHeartIcon : whiteHeartIcon }
               alt="blackHeartIcon"
