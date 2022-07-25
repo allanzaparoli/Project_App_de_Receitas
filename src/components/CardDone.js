@@ -9,6 +9,7 @@ function CardDone() {
 
   const callLocalStorage = () => {
     const doneRecipesStorage = JSON.parse(localStorage.getItem('doneRecipes')) ?? [];
+    console.log(doneRecipesStorage[0].doneDate.split('T')[0]);
     return doneRecipesStorage;
   };
 
@@ -94,7 +95,7 @@ function CardDone() {
               <p
                 data-testid={ `${index}-horizontal-done-date` }
               >
-                { `Done in: ${recipe.doneDate}` }
+                { `Done in: ${recipe.doneDate.split('T')[0]}` }
               </p>
               <div className="container-dones-info-name">
                 { (recipe.tags)
