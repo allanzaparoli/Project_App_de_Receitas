@@ -1,11 +1,23 @@
 .footer {
-  background-color: rgb(222, 111, 71);
+  background-color: rgb(242, 82, 82);
   bottom: 0;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   left: 0;
   padding: 8px;
   position: fixed;
   right: 0;
   width: 100%;
+}
+
+.btn-footer-foods {
+  border: none;
+  border-radius: 15px;
+  padding: 6px 10px;
+}
+
+.btn-footer-drinks {
+  border: none;
+  border-radius: 15px;
+  padding: 6px 10px;
 }
