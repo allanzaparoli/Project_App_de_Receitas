@@ -52,6 +52,9 @@ function Foods() {
         meals: {
           ...recipeInProgress.meals,
         },
+        cocktails: {
+          ...recipeInProgress.cocktails,
+        },
       });
     }
   }, []);

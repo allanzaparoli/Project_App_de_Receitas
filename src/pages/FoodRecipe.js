@@ -21,7 +21,7 @@ function FoodRecipe() {
   const [start, setStart] = useState(false);
   const [inProgressStorage, setInProgressStorage] = useLocalStorage('inProgressRecipes');
   const [finishedRecipe] = useLocalStorage('doneRecipes');
-  const number = 1000;
+  const number = 500;
 
   useEffect(() => {
     const getFoodDetail = async () => {

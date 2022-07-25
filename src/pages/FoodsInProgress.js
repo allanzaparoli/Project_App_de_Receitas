@@ -16,16 +16,20 @@ function FoodsInProgress() {
 
   useEffect(() => {
     const getFoodInProgress = async () => {
-      const food = await fetchRecipeDetail(id);
-      setFoodsInProgress(food);
+      if (id) {
+        const food = await fetchRecipeDetail(id);
+        setFoodsInProgress(food);
+      }
     };
     getFoodInProgress();
   }, []);
 
   const getIngredients = (recipe) => {
-    const arrayIngredients = Object.entries(recipe)
-      .filter((ingredient) => ingredient[0].includes('strIngredient'));
-    return arrayIngredients;
+    if (foodsInProgress) {
+      const arrayIngredients = Object.entries(recipe)
+        .filter((ingredient) => ingredient[0].includes('strIngredient'));
+      return arrayIngredients;
+    }
   };
 
   const handleCheckbox = ({ target: { value, checked } }) => {
@@ -47,8 +51,18 @@ function FoodsInProgress() {
     }
   };
 
+  // const setTags = (stringTags) => {
+  //   if (!stringTags || stringTags === null) {
+  //     return [];
+  //   }
+  //   stringTags.split(',');
+  // };
+
   const handleClickFinished = () => {
     const finished = JSON.parse(localStorage.getItem('doneRecipes')) ?? [];
+
+    // const tags2 = setTags(foodsInProgress[0].strTags);
+    // console.log(finished);
 
     setFinishRecipe([
       ...finished,
@@ -70,7 +84,7 @@ function FoodsInProgress() {
   return (
     <div>
       <h1>Foods in progress!</h1>
-      {foodsInProgress.length && foodsInProgress
+      {foodsInProgress && foodsInProgress
         .map((recipe, index) => (
           <div key={ index + 1 }>
             <img
@@ -92,7 +106,7 @@ function FoodsInProgress() {
               </button>
             </div>
             <p data-testid="instructions">{ recipe.strInstructions }</p>
-            { getIngredients(recipe).map((ingredient, i) => (
+            { foodsInProgress && getIngredients(recipe).map((ingredient, i) => (
               !(ingredient[1] === ''
               || ingredient[1] === null || ingredient[1] === undefined)
               && (

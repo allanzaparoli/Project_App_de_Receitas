@@ -16,16 +16,20 @@ function DrinksInProgress() {
 
   useEffect(() => {
     const getDrinksInProgress = async () => {
-      const drink = await fetchRecipeDetailDrink(id);
-      setdrinksInProgress(drink);
+      if (id) {
+        const drink = await fetchRecipeDetailDrink(id);
+        setdrinksInProgress(drink);
+      }
     };
     getDrinksInProgress();
   }, []);
 
   const getIngredients = (recipe) => {
-    const arrayIngredients = Object.entries(recipe)
-      .filter((ingredient) => ingredient[0].includes('strIngredient'));
-    return arrayIngredients;
+    if (drinksInProgress) {
+      const arrayIngredients = Object.entries(recipe)
+        .filter((ingredient) => ingredient[0].includes('strIngredient'));
+      return arrayIngredients;
+    }
   };
 
   const handleCheckbox = ({ target: { value, checked } }) => {
@@ -39,8 +43,8 @@ function DrinksInProgress() {
       }
       setInProgressStorage({
         ...currentInProgress,
-        meals: {
-          ...currentInProgress.meals,
+        cocktails: {
+          ...currentInProgress.cocktails,
           [id]: [...progressList],
         },
       });
@@ -49,6 +53,7 @@ function DrinksInProgress() {
 
   const handleClickFinished = () => {
     const finished = JSON.parse(localStorage.getItem('doneRecipes')) ?? [];
+
     setFinishRecipe([
       ...finished,
       {

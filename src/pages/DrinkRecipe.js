@@ -20,7 +20,7 @@ function DrinkRecipe() {
   const [start, setStart] = useState(false);
   const [inProgressStorage, setInProgressStorage] = useLocalStorage('inProgressRecipes');
   const [finishedRecipe] = useLocalStorage('doneRecipes');
-  const number = 1000;
+  const number = 500;
 
   useEffect(() => {
     const getDrinkDetail = async () => {
@@ -173,20 +173,10 @@ function DrinkRecipe() {
                 onClick={ handleStartRecipeButton }
               >
                 { !start && !Object.entries(inProgressStorage.cocktails)
-                  .map((ids) => ids[0]).includes(recipe.idDrink)
+                  ?.map((ids) => ids[0]).includes(recipe.idDrink)
                   ? 'Start Recipe' : 'Continue Recipe' }
               </button>
             ) : ''}
-          {/* ) : (
-          <button
-            type="button"
-            data-testid="start-recipe-btn"
-            className="start-recipe-button"
-            onClick={ handleStartRecipeButton }
-          >
-            Continue Recipe
-          </button> */}
-          {/* )} */}
         </div>
       ))}
       <div className="recomendations">

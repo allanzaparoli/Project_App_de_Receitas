@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
 import Header from '../components/Header';
 import '../css/doneRecipes.css';
-import DoneRecipesFood from '../components/DoneRecipesFood';
-import DoneRecipesDrinks from '../components/DoneRecipesDrink';
+import CardDone from '../components/CardDone';
+// import DoneRecipesDrinks from '../components/DoneRecipesDrink';
 
 function DoneRecipes() {
   const [filterFood, setFilterFood] = useState(false);
   const [filterDrink, setFilterDrink] = useState(false);
+
+  const callLocalStorage = () => {
+    const doneRecipesStorage = JSON.parse(localStorage.getItem('doneRecipes')) ?? [];
+    return doneRecipesStorage.filter((recipe) => recipe.type === 'drink');
+  };
 
   const handleFilterAll = () => {
     // setFilterAll(true);
@@ -58,12 +63,11 @@ function DoneRecipes() {
       </button>
       { (!filterFood && !filterDrink) && (
         <div>
-          <DoneRecipesFood />
-          <DoneRecipesDrinks />
+          <CardDone />
         </div>
       )}
-      { (filterFood) && <DoneRecipesFood /> }
-      { (filterDrink) && <DoneRecipesDrinks /> }
+      {/* { (filterFood) && <DoneRecipesFood /> }
+      { (filterDrink) && <DoneRecipesDrinks /> } */}
     </div>
   );
 }
