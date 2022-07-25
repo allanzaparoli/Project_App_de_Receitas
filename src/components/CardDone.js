@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import shareIcon from '../images/shareIcon.svg';
 
-function cardDone() {
+function CardDone() {
   const history = useHistory();
   const [share, setShare] = useState(false);
   const number = 1000;
@@ -82,9 +82,6 @@ function cardDone() {
               <div className="container-dones-info-name">
                 { console.log(recipe.tags)}
                 { (recipe.tags)
-                    // || recipe.tags === null
-                    // || recipe.tags === undefined
-                    // || recipe.tags === '')
                     && recipe.tags.map((tag, i) => (
                       <span
                         key={ i + 1 }
@@ -102,4 +99,4 @@ function cardDone() {
   );
 }
 
-export default cardDone;
+export default CardDone;

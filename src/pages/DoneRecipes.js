@@ -8,10 +8,10 @@ function DoneRecipes() {
   const [filterFood, setFilterFood] = useState(false);
   const [filterDrink, setFilterDrink] = useState(false);
 
-  const callLocalStorage = () => {
-    const doneRecipesStorage = JSON.parse(localStorage.getItem('doneRecipes')) ?? [];
-    return doneRecipesStorage.filter((recipe) => recipe.type === 'drink');
-  };
+  // const callLocalStorage = () => {
+  //   const doneRecipesStorage = JSON.parse(localStorage.getItem('doneRecipes')) ?? [];
+  //   return doneRecipesStorage.filter((recipe) => recipe.type === 'drink');
+  // };
 
   const handleFilterAll = () => {
     // setFilterAll(true);
