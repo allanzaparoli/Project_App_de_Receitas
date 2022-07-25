@@ -161,9 +161,6 @@ function DrinkRecipe() {
             ))}
           </ul>
           <p data-testid="instructions">{ recipe.strInstructions }</p>
-          {/* { !start && !Object.entries(inProgressStorage.cocktails)
-            .map((ids) => ids[0]).includes(recipe.idDrink)
-            ? ( */}
           { !finishedRecipe?.some((item) => item.id === id)
             ? (
               <button

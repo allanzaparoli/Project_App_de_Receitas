@@ -3,6 +3,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import { fetchRecipeDetail } from '../fetchAPI/searchFoods';
 import shareIcon from '../images/shareIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import useLocalStorage from '../hooks/useLocalStorage';
 import '../css/foodsInProgress.css';
 
@@ -13,6 +14,9 @@ function FoodsInProgress() {
   const [, setInProgressStorage] = useLocalStorage('inProgressRecipes');
   const [inProgress] = useState(true);
   const [, setFinishRecipe] = useLocalStorage('doneRecipes');
+  const [share, setShare] = useState(false);
+  const [heartClicked, setHeartClicked] = useState(false);
+  const number = 1000;
 
   useEffect(() => {
     const getFoodInProgress = async () => {
@@ -51,18 +55,8 @@ function FoodsInProgress() {
     }
   };
 
-  // const setTags = (stringTags) => {
-  //   if (!stringTags || stringTags === null) {
-  //     return [];
-  //   }
-  //   stringTags.split(',');
-  // };
-
   const handleClickFinished = () => {
     const finished = JSON.parse(localStorage.getItem('doneRecipes')) ?? [];
-
-    // const tags2 = setTags(foodsInProgress[0].strTags);
-    // console.log(finished);
 
     setFinishRecipe([
       ...finished,
@@ -81,9 +75,43 @@ function FoodsInProgress() {
     history.push('/done-recipes');
   };
 
+  const handleClickShare = () => {
+    const url = `http://localhost:3000/foods/${id}`;
+    navigator.clipboard.writeText(url);
+    setShare(true);
+  };
+
+  setTimeout(() => {
+    if (share) {
+      setShare(false);
+    }
+  }, number);
+
+  const handleFavorites = () => {
+    setHeartClicked((estadoAnt) => !estadoAnt);
+    const currentFavorites = JSON.parse(localStorage.getItem('favoriteRecipes')) ?? [];
+    if (!heartClicked) {
+      setFavoritesStorage([
+        ...currentFavorites,
+        {
+          id: foodDetail[0].idMeal,
+          type: 'food',
+          nationality: foodDetail[0].strArea,
+          category: foodDetail[0].strCategory,
+          alcoholicOrNot: foodDetail[0].strAlcoholic ?? '',
+          name: foodDetail[0].strMeal,
+          image: foodDetail[0].strMealThumb,
+        }]);
+    } else {
+      const filterId = currentFavorites.filter((favorite) => favorite.id !== id);
+      setFavoritesStorage(filterId);
+    }
+  };
+
   return (
     <div>
       <h1>Foods in progress!</h1>
+      { share && <p>Link copied!</p> }
       {foodsInProgress && foodsInProgress
         .map((recipe, index) => (
           <div key={ index + 1 }>
@@ -97,12 +125,32 @@ function FoodsInProgress() {
               <h1 data-testid="recipe-title">{ recipe.strMeal }</h1>
               <span data-testid="recipe-category">{ recipe.strCategory }</span>
               {' '}
-              <button type="button" data-testid="share-btn">
+              <button
+                type="button"
+                data-testid="share-btn"
+                onClick={ handleClickShare }
+              >
                 <img src={ shareIcon } alt="shareIcon" />
               </button>
               {' '}
-              <button type="button" data-testid="favorite-btn">
-                <img src={ blackHeartIcon } alt="favorito" />
+              <button
+                type="button"
+                data-testid="favorite-btn"
+                onClick={ handleFavorites }
+              >
+                { heartClicked ? (
+                  <img
+                    src={ blackHeartIcon }
+                    alt="blackHeartIcon"
+                    data-testid="favorite-btn"
+                  />
+                ) : (
+                  <img
+                    src={ whiteHeartIcon }
+                    alt="whiteHeartIco"
+                    data-testid="favorite-btn"
+                  />
+                )}
               </button>
             </div>
             <p data-testid="instructions">{ recipe.strInstructions }</p>

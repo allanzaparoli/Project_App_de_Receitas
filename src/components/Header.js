@@ -22,6 +22,7 @@ function Header(props) {
         { profile && (
           <div>
             <button
+              className="btn-header"
               type="button"
               onClick={ handleProfileClick }
             >
@@ -35,7 +36,11 @@ function Header(props) {
         )}
         <h1 data-testid="page-title">{title}</h1>
         { search && (
-          <button type="button" onClick={ () => setSearchBar(!searchBar) }>
+          <button
+            className="btn-header-src"
+            type="button"
+            onClick={ () => setSearchBar(!searchBar) }
+          >
             <img
               src={ searchIcon }
               alt="search"
