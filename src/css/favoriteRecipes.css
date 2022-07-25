@@ -1,76 +1,81 @@
 .favoriteImg {
-  height: 100%;
-  width: 80%;
   border: 1px solid #f25252;
   border-radius: 10%;
+  height: 100%;
+  width: 80%;
 }
 
 .favorite-card {
+  color: #f25252;
   display: flex;
   flex-direction: column;
   text-align: center;
-  color: #f25252;
-  
 }
 
 .favorite-card button {
   width: 80%;
 }
+
 .buttonAll {
   background-color: #f25252;
-  border-radius: 4px;
   border: none;
+  border-radius: 4px;
   color: white;
-  text-align: center;
-  font-size: 15px;
-  padding: 10px;
-  width: 30%;
   cursor: pointer;
+  font-size: 15px;
   margin: 4px;
+  padding: 10px;
+  text-align: center;
+  width: 30%;
 }
+
 .buttonFood {
   background-color: #f25252;
-  border-radius: 4px;
   border: none;
+  border-radius: 4px;
   color: white;
-  text-align: center;
-  font-size: 15px;
-  padding: 10px;
-  width: 30%;
   cursor: pointer;
+  font-size: 15px;
   margin: 4px;
+  padding: 10px;
+  text-align: center;
+  width: 30%;
 }
+
 .buttonDrink {
   background-color: #f25252;
-  border-radius: 4px;
   border: none;
+  border-radius: 4px;
   color: white;
-  text-align: center;
-  font-size: 15px;
-  padding: 10px;
-  width: 30%;
   cursor: pointer;
+  font-size: 15px;
   margin: 4px;
+  padding: 10px;
+  text-align: center;
+  width: 30%;
 }
+
 .butons {
-  display: flex;
   align-items: center;
+  display: flex;
   justify-content: space-between;
 }
-.divFavorites{
+
+.divFavorites {
   display: flex;
   flex-direction: column;
-  border-radius: 3px solid black;
 }
-.buttonCompartilhar{
-  width: 5px;
-  height: 40px;
-  background-color: white;
-  border: none; 
-}
-.buttonFavoritar{
-  width: 5px;
-  height: 40px;
+
+.buttonCompartilhar {
   background-color: white;
   border: none;
+  height: 40px;
+  width: 5px;
+}
+
+.buttonFavoritar {
+  background-color: white;
+  border: none;
+  height: 40px;
+  width: 5px;
 }
