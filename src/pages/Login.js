@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { GiCook } from 'react-icons/gi';
 import AppContext from '../context/AppContext';
 import '../css/login.css';
 
@@ -8,9 +9,10 @@ function Login() {
   const { email, password } = login;
 
   return (
-    <div>
+    <div className="login-background">
       <form className="login">
-        <h1>Login</h1>
+        <GiCook className="chef-icon" />
+        <h1>Recipe App</h1>
         <label htmlFor="email">
           Email:
           <input
@@ -23,7 +25,7 @@ function Login() {
           />
         </label>
         <label htmlFor="password">
-          Senha:
+          Password:
           <input
             name="password"
             type="password"

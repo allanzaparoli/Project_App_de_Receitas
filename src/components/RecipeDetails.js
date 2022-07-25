@@ -12,9 +12,3 @@ export default function RecipeDetails() {
     </div>
   );
 }
-console.log(useLocation);
-/*
-equisito pede um componente chamado RecipeInProgress
-12h04
-E já tem a foodInProgress e drinkInProgress
-*/

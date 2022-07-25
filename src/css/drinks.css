@@ -1,9 +1,41 @@
 .recipes-card img {
-  width: 70%;
+  border-radius: 8px;
+  width: 60%;
+}
+
+.recipes-card h2 {
+  color: #f25252;
+  font-weight: 900;
+  text-decoration: underline;
 }
 
 .recipes-card {
   align-items: center;
+  background-color: #f7e7e7;
+  border: 2px solid #f25252;
+  border-radius: 10px;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  margin-bottom: 10px;
+  margin-left: 20px;
+  padding: 15px;
+  width: 90%;
+}
+
+.category-buttons-drinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  justify-content: space-evenly;
+  margin-bottom: 8px;
+  margin-top: 8px;
+}
+
+.category-buttons-drinks button {
+  background-color: #f25252;
+  border: none;
+  border-radius: 2px;
+  color: white;
+  padding: 4px 10px;
 }

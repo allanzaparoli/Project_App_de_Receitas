@@ -21,6 +21,7 @@ function Footer() {
         <button
           type="button"
           onClick={ handleDrinksClick }
+          className="btn-footer-drinks"
         >
           <img
             src={ drinkIcon }
@@ -33,6 +34,7 @@ function Footer() {
         <button
           type="button"
           onClick={ handleMealsClick }
+          className="btn-footer-foods"
         >
           <img
             src={ mealIcon }
