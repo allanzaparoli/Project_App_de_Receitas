@@ -59,6 +59,7 @@ function CardDone() {
                 { (recipe.type === 'food')
                   ? (
                     <p
+                      className="text-done"
                       data-testid={ `${index}-horizontal-top-text` }
                     >
                       { `${recipe.nationality} - ${recipe.category}` }
@@ -66,6 +67,7 @@ function CardDone() {
                   )
                   : (
                     <p
+                      className="text-done"
                       data-testId={ `${index}-horizontal-top-text` }
                     >
                       { recipe.alcoholicOrNot }
@@ -87,12 +89,14 @@ function CardDone() {
                 onClick={ () => handleClickDone(recipe.id, recipe.type) }
               >
                 <h3
+                  className="text-done"
                   data-testid={ `${index}-horizontal-name` }
                 >
                   { recipe.name }
                 </h3>
               </button>
               <p
+                className="text-done"
                 data-testid={ `${index}-horizontal-done-date` }
               >
                 { `Done in: ${recipe.doneDate.split('T')[0]}` }
@@ -101,6 +105,7 @@ function CardDone() {
                 { (recipe.tags)
                     && recipe.tags.map((tag, i) => (
                       <span
+                        className="text-done"
                         key={ i + 1 }
                         data-testid={ `${index}-${tag}-horizontal-tag` }
                       >

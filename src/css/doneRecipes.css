@@ -80,8 +80,6 @@ body{
   color: #F2A74B;
 }
 
-
-h3, p, span  {
+.text-done{
   color: #F25252;
 }
-
