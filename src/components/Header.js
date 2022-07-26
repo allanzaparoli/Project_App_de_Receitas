@@ -22,7 +22,6 @@ function Header(props) {
         { profile && (
           <div>
             <button
-              className="btn-header"
               type="button"
               onClick={ handleProfileClick }
               className="btn-header"
