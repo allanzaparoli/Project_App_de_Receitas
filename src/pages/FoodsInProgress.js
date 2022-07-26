@@ -13,7 +13,7 @@ function FoodsInProgress() {
   const [foodsInProgress, setFoodsInProgress] = useState([]);
   const [, setFinishRecipe] = useLocalStorage('doneRecipes');
   const [share, setShare] = useState(false);
-  const [heartClicked, setHeartClicked] = useState(false);
+  const [heartClicked, setHeartClicked] = useState(true);
 
   const storageVerify = JSON.parse(localStorage.getItem('inProgressRecipes'));
   if (!storageVerify || !storageVerify.meals || !storageVerify.meals[id]) {
@@ -31,6 +31,7 @@ function FoodsInProgress() {
   };
 
   const [isChecked, setIsChecked] = useState(getStorageProgress());
+  const [isDisable/* , setIsDisable */] = useState(true);
   const number = 1000;
 
   useEffect(() => {
@@ -47,7 +48,11 @@ function FoodsInProgress() {
     if (foodsInProgress) {
       const arrayIngredients = Object.entries(recipe)
         .filter((ingredient) => ingredient[0].includes('strIngredient'));
-      return arrayIngredients;
+
+      const setArrayIngredients = arrayIngredients.filter((ingredient) => (
+        !(ingredient[1] === '' || ingredient[1] === null || ingredient[1] === undefined)
+      ));
+      return setArrayIngredients;
     }
   };
 
@@ -133,7 +138,6 @@ function FoodsInProgress() {
     }
   };
 
-  // console.log(isChecked);
   return (
     <div className="container-inProgress">
       { share && <p>Link copied!</p> }
@@ -191,30 +195,33 @@ function FoodsInProgress() {
             </p>
             <div className="container-checkbox">
               { foodsInProgress && getIngredients(recipe).map((ingredient, i) => (
-                !(ingredient[1] === ''
-              || ingredient[1] === null || ingredient[1] === undefined)
-              && (
-                <p
-                  key={ i + 1 }
-                  data-testid={ `${i}-ingredient-step` }
-                  className="checkbox"
-                >
-                  <input
-                    type="checkbox"
-                    value={ ingredient[1] }
-                    name="ingredients"
-                    onChange={ handleCheckbox }
-                    checked={ isChecked.includes(ingredient[1]) }
-                  />
-                  { ingredient[1] }
-                </p>)
-              )) }
+                (
+                  <p
+                    key={ i + 1 }
+                    data-testid={ `${i}-ingredient-step` }
+                    className="checkbox"
+                  >
+                    <input
+                      type="checkbox"
+                      value={ ingredient[1] }
+                      name="ingredients"
+                      onChange={ handleCheckbox }
+                      checked={ isChecked.includes(ingredient[1]) }
+                    />
+                    { ingredient[1] }
+                  </p>
+                )
+              ))}
+              {console.log()}
             </div>
+            {/* { (getIngredients(recipe).length !== isChecked.length)
+            && setIsDisable(false) } */}
             <button
               className="btn-finish"
               type="button"
               data-testid="finish-recipe-btn"
               onClick={ handleClickFinished }
+              disabled={ isDisable }
             >
               Finish Recipe
             </button>

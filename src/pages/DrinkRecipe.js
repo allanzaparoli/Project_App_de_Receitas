@@ -17,8 +17,8 @@ function DrinkRecipe() {
   const [, setFavoritesStorage] = useLocalStorage('favoriteRecipes');
   const [linkCopied, setLinkCopied] = useState(false);
   const [heartClicked, setHeartClicked] = useState(false);
-  const [start, setStart] = useState(false);
-  const [inProgressStorage, setInProgressStorage] = useLocalStorage('inProgressRecipes');
+  // const [start, setStart] = useState(false);
+  // const [inProgressStorage, setInProgressStorage] = useLocalStorage('inProgressRecipes');
   const [finishedRecipe] = useLocalStorage('doneRecipes');
   const number = 500;
   const progress = JSON.parse(localStorage.getItem('inProgressRecipes'));

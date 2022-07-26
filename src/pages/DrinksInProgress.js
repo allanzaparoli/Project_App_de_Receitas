@@ -18,7 +18,7 @@ function DrinksInProgress() {
   const [heartClicked, setHeartClicked] = useState(false);
 
   const storageVerify = JSON.parse(localStorage.getItem('inProgressRecipes'));
-  if (!storageVerify || !storageVerify.meals || !storageVerify.meals[id]) {
+  if (!storageVerify || !storageVerify.cocktails || !storageVerify.cocktails[id]) {
     localStorage.setItem('inProgressRecipes', JSON.stringify(
       {
         cocktails: {
@@ -65,7 +65,7 @@ function DrinksInProgress() {
   };
 
   const handleCheckbox = ({ target: { value, checked } }) => {
-    const currentInProgress = JSON.parse(localStorage.getItem('inProgressRecipes')) ?? [];
+    const currentInProgress = JSON.parse(localStorage.getItem('inProgressRecipes'));
     let progressList;
     // if (inProgress) {
     if (!checked) {
