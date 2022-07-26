@@ -1,16 +1,22 @@
+.container-email {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 150px;
+}
+
 .email-profile {
+  color: #ea9d83;
   font-size: 25px;
   font-weight: 800;
   margin-left: 5%;
-  color: #ea9d83;
 }
 
 .container-btn-profile {
-  /* display: flex;
-  justify-content: space-between; */
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-evenly;
+  align-items: center;
   margin-bottom: 8px;
   margin-top: 8px;
 }
@@ -18,7 +24,10 @@
 .btn-profile {
   background-color: #f25252;
   border: none;
-  border-radius: 2px;
+  border-radius: 10px;
   color: white;
+  height: 50px;
+  margin-bottom: 15%;
   padding: 6px 10px;
+  width: 200px;
 }

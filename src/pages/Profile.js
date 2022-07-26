@@ -25,7 +25,9 @@ function Profile() {
   return (
     <div>
       <Header title="Profile" profile />
-      <p className="email-profile" data-testid="profile-email">{ emailSaved }</p>
+      <div className="container-email">
+        <p className="email-profile" data-testid="profile-email">{ emailSaved }</p>
+      </div>
       <div className="container-btn-profile">
         <button
           className="btn-profile"
