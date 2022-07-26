@@ -21,6 +21,7 @@ function DrinkRecipe() {
   const [inProgressStorage, setInProgressStorage] = useLocalStorage('inProgressRecipes');
   const [finishedRecipe] = useLocalStorage('doneRecipes');
   const number = 500;
+  const progress = JSON.parse(localStorage.getItem('inProgressRecipes'));
 
   useEffect(() => {
     const getDrinkDetail = async () => {
@@ -43,13 +44,13 @@ function DrinkRecipe() {
     }
   }, []);
 
-  useEffect(() => {
-    const recipeInProgress = JSON.parse(localStorage.getItem('inProgressRecipes')) ?? {};
-    console.log(recipeInProgress);
-    if (!recipeInProgress.cocktails) {
-      setStart(true);
-    }
-  }, [start]);
+  // useEffect(() => {
+  //   const recipeInProgress = JSON.parse(localStorage.getItem('inProgressRecipes')) ?? {};
+  //   console.log(recipeInProgress);
+  //   if (!recipeInProgress.cocktails) {
+  //     setStart(true);
+  //   }
+  // }, [start]);
 
   const filterIngredientsKeys = () => {
     if (drinkDetail[0]) {
@@ -73,14 +74,14 @@ function DrinkRecipe() {
   };
 
   const handleStartRecipeButton = () => {
-    const recipeInProgress = JSON.parse(localStorage.getItem('inProgressRecipes')) ?? [];
-    setInProgressStorage({
-      ...recipeInProgress,
-      cocktails: {
-        ...recipeInProgress.cocktails,
-        [id]: [],
-      },
-    });
+    // const recipeInProgress = JSON.parse(localStorage.getItem('inProgressRecipes')) ?? [];
+    // setInProgressStorage({
+    //   ...recipeInProgress,
+    //   cocktails: {
+    //     ...recipeInProgress.cocktails,
+    //     [id]: [],
+    //   },
+    // });
     if (id) {
       history.push(`/drinks/${id}/in-progress`);
     }
@@ -169,9 +170,8 @@ function DrinkRecipe() {
                 className="start-recipe-button"
                 onClick={ handleStartRecipeButton }
               >
-                { !start && !Object.entries(inProgressStorage.cocktails)
-                  ?.map((ids) => ids[0]).includes(recipe.idDrink)
-                  ? 'Start Recipe' : 'Continue Recipe' }
+                { progress && progress.meals && progress.meals[id] !== undefined
+                  ? 'Continue Recipe' : 'Start Recipe' }
               </button>
             ) : ''}
         </div>

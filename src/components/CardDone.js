@@ -7,9 +7,9 @@ function CardDone() {
   const [share, setShare] = useState(false);
   const number = 1000;
 
+  if (!localStorage.doneRecipes) localStorage.setItem('doneRecipes', JSON.stringify([]));
   const callLocalStorage = () => {
-    const doneRecipesStorage = JSON.parse(localStorage.getItem('doneRecipes')) ?? [];
-    console.log(doneRecipesStorage[0].doneDate.split('T')[0]);
+    const doneRecipesStorage = JSON.parse(localStorage.getItem('doneRecipes'));
     return doneRecipesStorage;
   };
 
@@ -37,7 +37,7 @@ function CardDone() {
   return (
     <div>
       { share && <span>Link copied!</span> }
-      { callLocalStorage()/* .filter((recipe) => recipe.type === 'food') */
+      { callLocalStorage && callLocalStorage()
         .map((recipe, index) => (
           <div className="container-dones" key={ index + 1 }>
             <div className="container-dones-img">
