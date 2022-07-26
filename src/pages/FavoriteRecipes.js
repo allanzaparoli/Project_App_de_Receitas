@@ -57,9 +57,9 @@ function FavoriteRecipes() {
   return (
     <div className="divFavorites">
       <Header title="Favorite Recipes" profile />
-      <div className="butons">
+      <div className="container-buttons-favorite">
         <button
-          className="buttonAll"
+          className="buttonsFavorite"
           type="button"
           data-testid="filter-by-all-btn"
           onClick={ handleFilterButton }
@@ -69,7 +69,7 @@ function FavoriteRecipes() {
           All
         </button>
         <button
-          className="buttonFood"
+          className="buttonsFavorite"
           type="button"
           data-testid="filter-by-food-btn"
           onClick={ handleFilterButton }
@@ -79,7 +79,7 @@ function FavoriteRecipes() {
           Food
         </button>
         <button
-          className="buttonDrink"
+          className="buttonsFavorite"
           type="button"
           data-testid="filter-by-drink-btn"
           onClick={ handleFilterButton }
@@ -91,23 +91,6 @@ function FavoriteRecipes() {
       </div>
       { favorites && favorites.map((favorite, index) => (
         <div className="favorite-card" key={ index }>
-          {/* <Link
-            to={ favorite.type === 'food' ? (
-              `/foods/${favorite.id}`) : (`/drinks/${favorite.id}`) }
-          >
-            <img
-              className="favoriteImg"
-              src={ favorite.image }
-              alt="strMealThumb"
-              data-testid={ `${index}-horizontal-image` }
-            />
-            <div className="nameFavorite">
-              <h3 data-testid={ `${index}-horizontal-name` }>
-                { favorite.name }
-
-              </h3>
-            </div>
-          </Link> */}
           <div className="favoriteLinkImage">
             <Link
               to={ favorite.type === 'food' ? (
@@ -124,6 +107,7 @@ function FavoriteRecipes() {
           </div>
           <div className="favoriteNameCard">
             <Link
+              className="link-name-favorite"
               to={ favorite.type === 'food' ? (
                 `/foods/${favorite.id}`) : (`/drinks/${favorite.id}`) }
             >
@@ -132,36 +116,44 @@ function FavoriteRecipes() {
               </h3>
             </Link>
             { favorite.type === 'food' ? (
-              <h4 data-testid={ `${index}-horizontal-top-text` }>
+              <h4
+                className="text-favorite"
+                data-testid={ `${index}-horizontal-top-text` }
+              >
                 { `${favorite.nationality} - ${favorite.category}` }
               </h4>
             ) : (
-              <h4 data-testid={ `${index}-horizontal-top-text` }>
+              <h4
+                className="text-favorite"
+                data-testid={ `${index}-horizontal-top-text` }
+              >
                 { `${favorite.alcoholicOrNot}`}
               </h4>) }
             { linkCopied && <p>Link copied!</p> }
-            <button
-              className="buttonCompartilhar"
-              type="button"
-              onClick={ () => handleShareClick(favorite.id) }
-            >
-              <img
-                src={ shareIcon }
-                alt="shareIcon"
-                data-testid={ `${index}-horizontal-share-btn` }
-              />
-            </button>
-            <button
-              type="button"
-              onClick={ () => handleFavorites(favorite.id) }
-              className="buttonFavoritar"
-            >
-              <img
-                src={ heartClicked ? blackHeartIcon : whiteHeartIcon }
-                alt="blackHeartIcon"
-                data-testid={ `${index}-horizontal-favorite-btn` }
-              />
-            </button>
+            <div className="container-btn-favorite">
+              <button
+                className="buttons-like-share"
+                type="button"
+                onClick={ () => handleShareClick(favorite.id) }
+              >
+                <img
+                  src={ shareIcon }
+                  alt="shareIcon"
+                  data-testid={ `${index}-horizontal-share-btn` }
+                />
+              </button>
+              <button
+                type="button"
+                onClick={ () => handleFavorites(favorite.id) }
+                className="buttons-like-share"
+              >
+                <img
+                  src={ heartClicked ? blackHeartIcon : whiteHeartIcon }
+                  alt="blackHeartIcon"
+                  data-testid={ `${index}-horizontal-favorite-btn` }
+                />
+              </button>
+            </div>
           </div>
         </div>
       ))}

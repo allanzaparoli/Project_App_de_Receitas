@@ -1,30 +1,24 @@
 .favoriteImg {
-  display: flex;
-  height: 80%;
-  margin-left: -40px;
-  width: 80%;
+  border-radius: 10px 0 0 10px;
+  height: 190px;
+  margin-top: 3%;
+  width: 100%;
 }
 
 .favorite-card {
   align-items: center;
-  background-color: mistyrose;
-  border: 1px solid #f25252;
-  border-radius: 40px;
-  color: #f25252;
+  background-color: rgba(242, 182, 187, 0.15);
+  border: 1px solid rgba(242, 82, 82, 0.2);
+  border-radius: 10px;
+  box-shadow: 3px 5px 5px rgba(142, 142, 142, 0.5);
   display: flex;
-  height: 100px;
-  justify-content: center;
-  margin-bottom: 10px;
-  padding: 50px;
-  text-align: center;
-  width: 240px;
+  height: 200px;
+  justify-content: space-between;
+  margin: 0 0 15px 10px;
+  width: 95%;
 }
 
-.favorite-card button {
-  width: 80%;
-}
-
-.buttonAll {
+.buttonsFavorite {
   background-color: #f25252;
   border: none;
   border-radius: 4px;
@@ -37,69 +31,36 @@
   width: 30%;
 }
 
-.buttonFood {
-  background-color: #f25252;
-  border: none;
-  border-radius: 4px;
-  color: white;
-  cursor: pointer;
-  font-size: 15px;
-  margin: 4px;
-  padding: 10px;
-  text-align: center;
-  width: 30%;
+.container-buttons-favorite {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  margin-bottom: 8px;
+  margin-top: 8px;
 }
 
-.buttonDrink {
-  background-color: #f25252;
-  border: none;
-  border-radius: 4px;
-  color: white;
-  cursor: pointer;
-  font-size: 15px;
-  margin: 4px;
-  padding: 10px;
-  text-align: center;
-  width: 30%;
-}
-
-.butons {
+.favoriteNameCard {
   align-items: center;
   display: flex;
-  justify-content: space-between;
-}
-
-.divFavorites {
-  display: flex;
   flex-direction: column;
-  width: 355px;
+  width: 60%;
 }
 
-.buttonCompartilhar {
-  background-color: mistyrose;
+.container-btn-favorite {
+  display: flex;
+  justify-content: space-around;
+  width: 50%;
+}
+
+.buttons-like-share {
+  background-color: rgba(242, 182, 187, 0.05);
   border: none;
   height: 30px;
   width: 5px;
 }
 
-.buttonFavoritar {
-  background-color: mistyrose;
-  border: none;
-  height: 30px;
-  width: 4px;
+.link-name-favorite, .text-favorite {
+  color: #f25252;
+  text-decoration: none;
 }
 
-.nameFavorite {
-  text-align: center;
-
-}
-
-.favoriteLinkImage {
-  display: flex;
-  flex-direction: column;
-  position: relative;
-}
-
-.favoriteNameCard {
-  text-align: center;
-}

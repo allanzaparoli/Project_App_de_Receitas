@@ -5,18 +5,33 @@ import shareIcon from '../images/shareIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import useLocalStorage from '../hooks/useLocalStorage';
-import Header from '../components/Header';
-import '../css/foodsInProgress.css';
+import '../css/inProgress.css';
 
 function FoodsInProgress() {
   const history = useHistory();
   const { id } = useParams();
   const [foodsInProgress, setFoodsInProgress] = useState([]);
-  const [, setInProgressStorage] = useLocalStorage('inProgressRecipes');
-  const [inProgress] = useState(true);
   const [, setFinishRecipe] = useLocalStorage('doneRecipes');
   const [share, setShare] = useState(false);
-  const [heartClicked, setHeartClicked] = useState(false);
+  const [heartClicked, setHeartClicked] = useState(true);
+
+  const storageVerify = JSON.parse(localStorage.getItem('inProgressRecipes'));
+  if (!storageVerify || !storageVerify.meals || !storageVerify.meals[id]) {
+    localStorage.setItem('inProgressRecipes', JSON.stringify(
+      {
+        meals: {
+          [id]: [],
+        },
+      },
+    ));
+  }
+  const getStorageProgress = () => {
+    const storage = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    return storage.meals[id];
+  };
+
+  const [isChecked, setIsChecked] = useState(getStorageProgress());
+  const [isDisable/* , setIsDisable */] = useState(false);
   const number = 1000;
 
   useEffect(() => {
@@ -33,31 +48,45 @@ function FoodsInProgress() {
     if (foodsInProgress) {
       const arrayIngredients = Object.entries(recipe)
         .filter((ingredient) => ingredient[0].includes('strIngredient'));
-      return arrayIngredients;
+
+      const setArrayIngredients = arrayIngredients.filter((ingredient) => (
+        !(ingredient[1] === '' || ingredient[1] === null || ingredient[1] === undefined)
+      ));
+      return setArrayIngredients;
     }
   };
 
   const handleCheckbox = ({ target: { value, checked } }) => {
-    const currentInProgress = JSON.parse(localStorage.getItem('inProgressRecipes')) ?? [];
+    const currentInProgress = JSON.parse(localStorage.getItem('inProgressRecipes'));
     let progressList;
-    if (inProgress) {
-      if (!checked) {
-        progressList = currentInProgress.meals[id].filter((item) => item !== value);
-      } else {
-        progressList = [...currentInProgress.meals[id], value];
-      }
-      setInProgressStorage({
-        ...currentInProgress,
-        meals: {
-          ...currentInProgress.meals,
-          [id]: [...progressList],
-        },
-      });
+    // if (inProgress) {
+    if (!checked) {
+      progressList = isChecked.filter((item) => item !== value);
+      // progressList = currentInProgress.meals[id].filter((item) => item !== value);
+    } else {
+      progressList = [...isChecked, value];
     }
+    localStorage.setItem('inProgressRecipes', JSON.stringify({
+      ...currentInProgress,
+      meals: {
+        ...currentInProgress.meals,
+        [id]: [...progressList],
+      },
+    }));
+    setIsChecked(progressList);
+    // }
   };
 
+  const setTags = (stringTags) => {
+    if (stringTags !== null && stringTags !== undefined && stringTags !== '') {
+      return stringTags.split(',');
+    }
+    return [];
+  };
+
+  if (!localStorage.doneRecipes) localStorage.setItem('doneRecipes', JSON.stringify([]));
   const handleClickFinished = () => {
-    const finished = JSON.parse(localStorage.getItem('doneRecipes')) ?? [];
+    const finished = JSON.parse(localStorage.getItem('doneRecipes'));
 
     setFinishRecipe([
       ...finished,
@@ -70,7 +99,7 @@ function FoodsInProgress() {
         name: foodsInProgress[0].strMeal,
         image: foodsInProgress[0].strMealThumb,
         doneDate: new Date(),
-        tags: foodsInProgress[0].strTags.split(','),
+        tags: setTags(),
       },
     ]);
     history.push('/done-recipes');
@@ -111,7 +140,6 @@ function FoodsInProgress() {
 
   return (
     <div className="container-inProgress">
-      <Header title="Foods in Progress" profile />
       { share && <p>Link copied!</p> }
       {foodsInProgress && foodsInProgress
         .map((recipe, index) => (
@@ -167,30 +195,33 @@ function FoodsInProgress() {
             </p>
             <div className="container-checkbox">
               { foodsInProgress && getIngredients(recipe).map((ingredient, i) => (
-                !(ingredient[1] === ''
-              || ingredient[1] === null || ingredient[1] === undefined)
-              && (
-                <p
-                  key={ i + 1 }
-                  data-testid={ `${i}-ingredient-step` }
-                  className="checkbox"
-                >
-                  <input
-                    type="checkbox"
-                    value={ ingredient[1] }
-                    name="ingredients"
-                    // className={ (ev.target.checked) ? 'check' : '' }
-                    onChange={ handleCheckbox }
-                  />
-                  { ingredient[1] }
-                </p>)
-              )) }
+                (
+                  <p
+                    key={ i + 1 }
+                    data-testid={ `${i}-ingredient-step` }
+                    className="checkbox"
+                  >
+                    <input
+                      type="checkbox"
+                      value={ ingredient[1] }
+                      name="ingredients"
+                      onChange={ handleCheckbox }
+                      checked={ isChecked.includes(ingredient[1]) }
+                    />
+                    { ingredient[1] }
+                  </p>
+                )
+              ))}
+              {console.log()}
             </div>
+            {/* { (getIngredients(recipe).length !== isChecked.length)
+            && setIsDisable(false) } */}
             <button
               className="btn-finish"
               type="button"
               data-testid="finish-recipe-btn"
               onClick={ handleClickFinished }
+              disabled={ isDisable }
             >
               Finish Recipe
             </button>

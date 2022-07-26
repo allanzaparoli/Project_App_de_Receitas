@@ -5,18 +5,46 @@ import shareIcon from '../images/shareIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import useLocalStorage from '../hooks/useLocalStorage';
-import '../css/drinksInProgress.css';
+import '../css/inProgress.css';
 
 function DrinksInProgress() {
   const history = useHistory();
   const { id } = useParams();
   const [drinksInProgress, setdrinksInProgress] = useState([]);
-  const [, setInProgressStorage] = useLocalStorage('inProgressRecipes');
-  const [inProgress] = useState(true);
+  // const [, setInProgressStorage] = useLocalStorage('inProgressRecipes');
+  // const [inProgress] = useState(true);
   const [, setFinishRecipe] = useLocalStorage('doneRecipes');
   const [share, setShare] = useState(false);
   const [heartClicked, setHeartClicked] = useState(false);
+
+  const storageVerify = JSON.parse(localStorage.getItem('inProgressRecipes'));
+  if (!storageVerify || !storageVerify.cocktails || !storageVerify.cocktails[id]) {
+    localStorage.setItem('inProgressRecipes', JSON.stringify(
+      {
+        cocktails: {
+          [id]: [],
+        },
+      },
+    ));
+  }
+
+  const getStorageProgress = () => {
+    const storage = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    return storage.cocktails[id];
+  };
+
+  const [isChecked, setIsChecked] = useState(getStorageProgress());
   const number = 1000;
+
+  // if (!localStorage.inProgressRecipes) {
+  //   localStorage.setItem('inProgressRecipes', JSON.stringify(
+  //     {
+  //       cocktails: {
+  //         [id]: [],
+  //       },
+  //     },
+  //   ));
+  // }
 
   useEffect(() => {
     const getDrinksInProgress = async () => {
@@ -37,26 +65,37 @@ function DrinksInProgress() {
   };
 
   const handleCheckbox = ({ target: { value, checked } }) => {
-    const currentInProgress = JSON.parse(localStorage.getItem('inProgressRecipes')) ?? [];
+    const currentInProgress = JSON.parse(localStorage.getItem('inProgressRecipes'));
     let progressList;
-    if (inProgress) {
-      if (!checked) {
-        progressList = currentInProgress.cocktails[id].filter((item) => item !== value);
-      } else {
-        progressList = [...currentInProgress.cocktails[id], value];
-      }
-      setInProgressStorage({
-        ...currentInProgress,
-        cocktails: {
-          ...currentInProgress.cocktails,
-          [id]: [...progressList],
-        },
-      });
+    // if (inProgress) {
+    if (!checked) {
+      progressList = isChecked.filter((item) => item !== value);
+      // progressList = currentInProgress.cocktails[id].filter((item) => item !== value);
+    } else {
+      progressList = [...isChecked, value];
+      // progressList = [...currentInProgress.cocktails[id], value];
     }
+    localStorage.setItem('inProgressRecipes', JSON.stringify({
+      ...currentInProgress,
+      cocktails: {
+        ...currentInProgress.cocktails,
+        [id]: [...progressList],
+      },
+    }));
+    setIsChecked(progressList);
+    // }
   };
 
+  const setTags = (stringTags) => {
+    if (stringTags !== null && stringTags !== undefined && stringTags !== '') {
+      return stringTags.split(',');
+    }
+    return [];
+  };
+
+  if (!localStorage.donRecipes) localStorage.setItem('doneRecipes', JSON.stringify([]));
   const handleClickFinished = () => {
-    const finished = JSON.parse(localStorage.getItem('doneRecipes')) ?? [];
+    const finished = JSON.parse(localStorage.getItem('doneRecipes'));
 
     setFinishRecipe([
       ...finished,
@@ -69,7 +108,7 @@ function DrinksInProgress() {
         name: drinksInProgress[0].strDrink,
         image: drinksInProgress[0].strDrinkThumb,
         doneDate: new Date(),
-        tags: [],
+        tags: setTags(),
       },
     ]);
     history.push('/done-recipes');
@@ -109,22 +148,21 @@ function DrinksInProgress() {
   };
 
   return (
-    <div>
-      <h1>Drinks in progress!</h1>
+    <div className="container-inProgress">
       { share && <p>Link copied!</p> }
-      {drinksInProgress.length && drinksInProgress
+      {drinksInProgress && drinksInProgress
         .map((recipe, index) => (
-          <div key={ index + 1 }>
+          <div className="container-interno" key={ index + 1 }>
             <img
               className="img-drinks-in-progress"
               src={ recipe.strDrinkThumb }
               alt="recipe-in-progress"
               data-testid="recipe-photo"
             />
-            <div>
+            <div className="recipe-in-progress-name">
               <h1 data-testid="recipe-title">{ recipe.strDrink }</h1>
-              <span data-testid="recipe-category">{ recipe.strCategory }</span>
               <button
+                className="btn-progress"
                 type="button"
                 data-testid="share-btn"
                 onClick={ handleClickShare }
@@ -133,6 +171,7 @@ function DrinksInProgress() {
               </button>
               {' '}
               <button
+                className="btn-progress"
                 type="button"
                 data-testid="favorite-btn"
                 onClick={ handleFavorites }
@@ -140,9 +179,9 @@ function DrinksInProgress() {
                 { heartClicked
                   ? (
                     <img
-                      data-testid="favorite-btn"
                       src={ blackHeartIcon }
                       alt="blackHeartIcon"
+                      data-testid="favorite-btn"
                     />
                   )
                   : (
@@ -154,25 +193,38 @@ function DrinksInProgress() {
                   ) }
               </button>
             </div>
-            <p data-testid="instructions">{ recipe.strInstructions }</p>
-            { getIngredients(recipe).map((ingredient, i) => (
-              !(ingredient[1] === ''
+            <div className="progress-categories">
+              <span data-testid="recipe-category">{ recipe.strCategory }</span>
+            </div>
+            <p
+              className="instructions"
+              data-testid="instructions"
+            >
+              { recipe.strInstructions }
+            </p>
+            <div className="container-checkbox">
+              { drinksInProgress && getIngredients(recipe).map((ingredient, i) => (
+                !(ingredient[1] === ''
               || ingredient[1] === null || ingredient[1] === undefined)
               && (
                 <p
                   key={ i + 1 }
                   data-testid={ `${i}-ingredient-step` }
+                  className="checkbox"
                 >
                   <input
                     type="checkbox"
                     value={ ingredient[1] }
                     name="ingredients"
                     onChange={ handleCheckbox }
+                    checked={ isChecked.includes(ingredient[1]) }
                   />
                   { ingredient[1] }
                 </p>)
-            ))}
+              ))}
+            </div>
             <button
+              className="btn-finish"
               type="button"
               data-testid="finish-recipe-btn"
               onClick={ handleClickFinished }
