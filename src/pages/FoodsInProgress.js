@@ -214,8 +214,6 @@ function FoodsInProgress() {
               ))}
               {console.log()}
             </div>
-            {/* { (getIngredients(recipe).length !== isChecked.length)
-            && setIsDisable(false) } */}
             <button
               className="btn-finish"
               type="button"

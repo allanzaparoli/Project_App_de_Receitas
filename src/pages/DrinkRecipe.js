@@ -74,14 +74,6 @@ function DrinkRecipe() {
   };
 
   const handleStartRecipeButton = () => {
-    // const recipeInProgress = JSON.parse(localStorage.getItem('inProgressRecipes')) ?? [];
-    // setInProgressStorage({
-    //   ...recipeInProgress,
-    //   cocktails: {
-    //     ...recipeInProgress.cocktails,
-    //     [id]: [],
-    //   },
-    // });
     if (id) {
       history.push(`/drinks/${id}/in-progress`);
     }
@@ -120,48 +112,73 @@ function DrinkRecipe() {
   };
 
   return (
-    <div>
-      <div className="share-heart-buttons">
-        { linkCopied && <p>Link copied!</p> }
-        <button type="button" data-testid="share-btn" onClick={ handleShareClick }>
-          <img src={ shareIcon } alt="shareIcon" />
-        </button>
-        <button
-          type="button"
-          onClick={ () => handleFavorites(id) }
-        >
-          { heartClicked ? (
-            <img src={ blackHeartIcon } alt="blackHeartIcon" data-testid="favorite-btn" />
-          ) : (
-            <img
-              src={ whiteHeartIcon }
-              alt="whiteHeartIco"
-              data-testid="favorite-btn"
-            />) }
-        </button>
-      </div>
+    <div className="container-details">
       { drinkDetail && drinkDetail.map((recipe, index) => (
         <div key={ index } className="recipe-details">
-          <h1 data-testid="recipe-title">{ recipe.strDrink }</h1>
-          <img
-            src={ recipe.strDrinkThumb }
-            alt="strDrinkThumb"
-            data-testid="recipe-photo"
-          />
-          <h3 data-testid="recipe-category">{ recipe.strAlcoholic }</h3>
-          <ul>
-            { bothFilters().map((key, index2) => (
-              <li
-                key={ Math.random() }
-                data-testid={ `${index2}-ingredient-name-and-measure` }
+          <div className="container-img-details">
+            <img
+              className="img-details"
+              src={ recipe.strDrinkThumb }
+              alt="strDrinkThumb"
+              data-testid="recipe-photo"
+            />
+          </div>
+          <div className="details-categories">
+            <h3 data-testid="recipe-category">{ recipe.strAlcoholic }</h3>
+          </div>
+          <div className="container-interno-details">
+            <h1 data-testid="recipe-title">{ recipe.strDrink }</h1>
+            <div className="share-heart-buttons">
+              { linkCopied && <p>Link copied!</p> }
+              <button
+                className="btn-details"
+                type="button"
+                data-testid="share-btn"
+                onClick={ handleShareClick }
               >
-                {key[0]}
-                -
-                <span>{key[1]}</span>
-              </li>
-            ))}
-          </ul>
-          <p data-testid="instructions">{ recipe.strInstructions }</p>
+                <img src={ shareIcon } alt="shareIcon" />
+              </button>
+              <button
+                className="btn-details"
+                type="button"
+                onClick={ () => handleFavorites(id) }
+              >
+                { heartClicked ? (
+                  <img
+                    src={ blackHeartIcon }
+                    alt="blackHeartIcon"
+                    data-testid="favorite-btn"
+                  />
+                ) : (
+                  <img
+                    src={ whiteHeartIcon }
+                    alt="whiteHeartIco"
+                    data-testid="favorite-btn"
+                  />) }
+              </button>
+            </div>
+          </div>
+          <div className="container-li-details">
+            <ul>
+              { bothFilters().map((key, index2) => (
+                <li
+                  className="li-details"
+                  key={ Math.random() }
+                  data-testid={ `${index2}-ingredient-name-and-measure` }
+                >
+                  {key[0]}
+                  -
+                  <span>{key[1]}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <p
+            className="instructions-details"
+            data-testid="instructions"
+          >
+            { recipe.strInstructions }
+          </p>
           { !finishedRecipe?.some((item) => item.id === id)
             ? (
               <button
