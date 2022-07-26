@@ -1,6 +1,11 @@
+body {
+  background-color: #f2f2f2;
+}
+
 .container-dones {
   align-items: center;
-  border: 1px solid #ffe7d6;
+  background-color: rgba(242, 182, 187, 0.15);
+  border: 1px solid rgba(242, 82, 82, 0.2);
   border-radius: 10px;
   box-shadow: 3px 5px 5px rgba(142, 142, 142, 0.5);
   display: flex;
@@ -17,7 +22,8 @@
 
 .img-recipes-done {
   border-radius: 10px 0 0 10px;
-  height: 100%;
+  height: 190px;
+  margin-top: 3%;
   width: 100%;
 }
 
@@ -42,4 +48,36 @@
 
 .shareIcon {
   height: 21px;
+}
+
+.btn-done {
+  background-color: rgba(242, 82, 82, 0.01);
+  border: none;
+}
+
+.container-buttons-done {
+  display: flex;
+  justify-content: space-between;
+}
+
+.buttons-done {
+  background-color: #f2b6bb;
+  border: none;
+  border-radius: 5px;
+  color: #f2f2f2;
+  height: 30px;
+  margin-bottom: 3%;
+  width: 33%;
+}
+
+.buttons-done:hover {
+  color: #f2a74b;
+}
+
+.name-done:hover {
+  color: #f2a74b;
+}
+
+.text-done {
+  color: #f25252;
 }

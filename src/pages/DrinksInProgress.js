@@ -3,6 +3,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import { fetchRecipeDetailDrink } from '../fetchAPI/searchDrinks';
 import shareIcon from '../images/shareIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import useLocalStorage from '../hooks/useLocalStorage';
 import '../css/drinksInProgress.css';
 
@@ -13,6 +14,9 @@ function DrinksInProgress() {
   const [, setInProgressStorage] = useLocalStorage('inProgressRecipes');
   const [inProgress] = useState(true);
   const [, setFinishRecipe] = useLocalStorage('doneRecipes');
+  const [share, setShare] = useState(false);
+  const [heartClicked, setHeartClicked] = useState(false);
+  const number = 1000;
 
   useEffect(() => {
     const getDrinksInProgress = async () => {
@@ -71,9 +75,43 @@ function DrinksInProgress() {
     history.push('/done-recipes');
   };
 
+  const handleClickShare = () => {
+    const url = `http://localhost:3000/drinks/${id}`;
+    navigator.clipboard.writeText(url);
+    setShare(true);
+  };
+
+  setTimeout(() => {
+    if (share) {
+      setShare(false);
+    }
+  }, number);
+
+  const handleFavorites = () => {
+    setHeartClicked((estadoAnt) => !estadoAnt);
+    const currentFavorites = JSON.parse(localStorage.getItem('favoriteRecipes')) ?? [];
+    if (!heartClicked) {
+      setFavoritesStorage([
+        ...currentFavorites,
+        {
+          id: drinkDetail[0].idDrink,
+          type: 'drink',
+          nationality: drinkDetail[0].strArea ?? '',
+          category: drinkDetail[0].strCategory ?? '',
+          alcoholicOrNot: drinkDetail[0].strAlcoholic ?? '',
+          name: drinkDetail[0].strDrink,
+          image: drinkDetail[0].strDrinkThumb,
+        }]);
+    } else {
+      const filterId = currentFavorites.filter((favorite) => favorite.id !== id2);
+      setFavoritesStorage(filterId);
+    }
+  };
+
   return (
     <div>
       <h1>Drinks in progress!</h1>
+      { share && <p>Link copied!</p> }
       {drinksInProgress.length && drinksInProgress
         .map((recipe, index) => (
           <div key={ index + 1 }>
@@ -86,12 +124,34 @@ function DrinksInProgress() {
             <div>
               <h1 data-testid="recipe-title">{ recipe.strDrink }</h1>
               <span data-testid="recipe-category">{ recipe.strCategory }</span>
-              <button type="button" data-testid="share-btn">
+              <button
+                type="button"
+                data-testid="share-btn"
+                onClick={ handleClickShare }
+              >
                 <img src={ shareIcon } alt="shareIcon" />
               </button>
               {' '}
-              <button type="button" data-testid="favorite-btn">
-                <img src={ blackHeartIcon } alt="favorito" />
+              <button
+                type="button"
+                data-testid="favorite-btn"
+                onClick={ handleFavorites }
+              >
+                { heartClicked
+                  ? (
+                    <img
+                      data-testid="favorite-btn"
+                      src={ blackHeartIcon }
+                      alt="blackHeartIcon"
+                    />
+                  )
+                  : (
+                    <img
+                      src={ whiteHeartIcon }
+                      alt="whiteHeartIco"
+                      data-testid="favorite-btn"
+                    />
+                  ) }
               </button>
             </div>
             <p data-testid="instructions">{ recipe.strInstructions }</p>

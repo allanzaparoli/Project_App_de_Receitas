@@ -9,10 +9,9 @@ function CardDone() {
 
   const callLocalStorage = () => {
     const doneRecipesStorage = JSON.parse(localStorage.getItem('doneRecipes')) ?? [];
+    console.log(doneRecipesStorage[0].doneDate.split('T')[0]);
     return doneRecipesStorage;
   };
-
-  //   callLocalStorage().map((item) => console.log(item.join(',')));
 
   const handleClickShare = (id) => {
     const url = `http://localhost:3000/foods/${id}`;
@@ -43,6 +42,7 @@ function CardDone() {
           <div className="container-dones" key={ index + 1 }>
             <div className="container-dones-img">
               <button
+                className="btn-done"
                 type="button"
                 onClick={ () => handleClickDone(recipe.id, recipe.type) }
               >
@@ -59,6 +59,7 @@ function CardDone() {
                 { (recipe.type === 'food')
                   ? (
                     <p
+                      className="text-done"
                       data-testid={ `${index}-horizontal-top-text` }
                     >
                       { `${recipe.nationality} - ${recipe.category}` }
@@ -66,12 +67,14 @@ function CardDone() {
                   )
                   : (
                     <p
+                      className="text-done"
                       data-testId={ `${index}-horizontal-top-text` }
                     >
                       { recipe.alcoholicOrNot }
                     </p>
                   )}
                 <button
+                  className="btn-done shareIcon"
                   src={ shareIcon }
                   type="button"
                   data-testid={ `${index}-horizontal-share-btn` }
@@ -81,21 +84,28 @@ function CardDone() {
                 </button>
               </div>
               <button
+                className="btn-done"
                 type="button"
                 onClick={ () => handleClickDone(recipe.id, recipe.type) }
               >
-                <h3 data-testid={ `${index}-horizontal-name` }>{ recipe.name }</h3>
+                <h3
+                  className="text-done"
+                  data-testid={ `${index}-horizontal-name` }
+                >
+                  { recipe.name }
+                </h3>
               </button>
               <p
+                className="text-done"
                 data-testid={ `${index}-horizontal-done-date` }
               >
-                { `Done in: ${recipe.doneDate}` }
+                { `Done in: ${recipe.doneDate.split('T')[0]}` }
               </p>
               <div className="container-dones-info-name">
-                { console.log(recipe.tags)}
                 { (recipe.tags)
                     && recipe.tags.map((tag, i) => (
                       <span
+                        className="text-done"
                         key={ i + 1 }
                         data-testid={ `${index}-${tag}-horizontal-tag` }
                       >
