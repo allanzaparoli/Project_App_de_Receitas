@@ -31,7 +31,7 @@ function FoodsInProgress() {
   };
 
   const [isChecked, setIsChecked] = useState(getStorageProgress());
-  const [isDisable/* , setIsDisable */] = useState(true);
+  const [isDisable/* , setIsDisable */] = useState(false);
   const number = 1000;
 
   useEffect(() => {
