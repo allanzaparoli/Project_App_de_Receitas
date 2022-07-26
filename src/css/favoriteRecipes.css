@@ -1,14 +1,105 @@
-.favorite-card img {
-  height: 100%;
-  width: 50%;
+.favoriteImg {
+  display: flex;
+  height: 80%;
+  margin-left: -40px;
+  width: 80%;
 }
 
 .favorite-card {
+  align-items: center;
+  background-color: mistyrose;
+  border: 1px solid #f25252;
+  border-radius: 40px;
+  color: #f25252;
   display: flex;
-  flex-direction: column;
+  height: 100px;
+  justify-content: center;
+  margin-bottom: 10px;
+  padding: 50px;
+  text-align: center;
+  width: 240px;
 }
 
 .favorite-card button {
-  width: 50px;
+  width: 80%;
 }
 
+.buttonAll {
+  background-color: #f25252;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+  font-size: 15px;
+  margin: 4px;
+  padding: 10px;
+  text-align: center;
+  width: 30%;
+}
+
+.buttonFood {
+  background-color: #f25252;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+  font-size: 15px;
+  margin: 4px;
+  padding: 10px;
+  text-align: center;
+  width: 30%;
+}
+
+.buttonDrink {
+  background-color: #f25252;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+  font-size: 15px;
+  margin: 4px;
+  padding: 10px;
+  text-align: center;
+  width: 30%;
+}
+
+.butons {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.divFavorites {
+  display: flex;
+  flex-direction: column;
+  width: 355px;
+}
+
+.buttonCompartilhar {
+  background-color: mistyrose;
+  border: none;
+  height: 30px;
+  width: 5px;
+}
+
+.buttonFavoritar {
+  background-color: mistyrose;
+  border: none;
+  height: 30px;
+  width: 4px;
+}
+
+.nameFavorite {
+  text-align: center;
+
+}
+
+.favoriteLinkImage {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.favoriteNameCard {
+  text-align: center;
+}
