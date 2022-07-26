@@ -75,13 +75,13 @@ function DrinksInProgress() {
       progressList = [...isChecked, value];
       // progressList = [...currentInProgress.cocktails[id], value];
     }
-    setInProgressStorage({
+    localStorage.setItem('inProgressRecipes', JSON.stringify({
       ...currentInProgress,
       cocktails: {
         ...currentInProgress.cocktails,
         [id]: [...progressList],
       },
-    });
+    }));
     setIsChecked(progressList);
     // }
   };

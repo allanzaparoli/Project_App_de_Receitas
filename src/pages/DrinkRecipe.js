@@ -170,7 +170,7 @@ function DrinkRecipe() {
                 className="start-recipe-button"
                 onClick={ handleStartRecipeButton }
               >
-                { progress && progress.meals && progress.meals[id] !== undefined
+                { progress && progress.cocktails && progress.cocktails[id] !== undefined
                   ? 'Continue Recipe' : 'Start Recipe' }
               </button>
             ) : ''}
