@@ -20,16 +20,16 @@
 
 .start-recipe-button {
   align-items: center;
-  bottom: 0;
-  display: flex;
-  position: fixed;
   background-color: #f25252;
   border: none;
+  bottom: 0;
   color: #f2f2f2;
+  display: flex;
   font-size: 25px;
   font-weight: 900;
   height: 60px;
   justify-content: center;
+  position: fixed;
   width: 100%;
 }
 
